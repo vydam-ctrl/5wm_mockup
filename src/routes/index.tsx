@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { AppShell, StatusBadge, MatchProgress } from "@/components/app-shell";
+import { AppShell, StatusBadge } from "@/components/app-shell";
 import { INVOICES } from "@/lib/shipment-data";
 import {
   DropdownMenu,
@@ -213,7 +213,7 @@ function InvoiceListPage() {
                     <td>{r.approver}</td>
                     <td>{r.approvalDate}</td>
                     <td>{r.reference}</td>
-                    <td><MatchProgress matched={r.matched} total={r.total} /></td>
+                    <td>{t(r.stage)}</td>
                     <td className="text-right tabular-nums font-medium">{r.amount} <span className="text-text-secondary">{r.currency}</span></td>
                     <td><StatusBadge status={r.status} /></td>
                     <td>

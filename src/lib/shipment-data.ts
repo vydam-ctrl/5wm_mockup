@@ -54,8 +54,7 @@ export type InvoiceRow = {
   approver: string;
   approvalDate: string;
   reference: string;
-  matched: number; // 0-5
-  total: number;
+  stage: "Stage 1" | "Stage 2" | "Stage 3";
   status: "Approved" | "Pending Approval" | "Rejected" | "Cancelled";
   amount: string;
   currency: string;
@@ -69,7 +68,7 @@ export const INVOICES: InvoiceRow[] = [
     receivedDate: "16-Apr-2026", processedDate: "16-Apr-2026 08:29",
     vendor: "Qinhuangdao Lihua Starch Co., Ltd.", approver: "Nguyen Thi Lan",
     approvalDate: "30-Apr-2026", reference: "IMP-2026-Q2-0417",
-    matched: 5, total: 5, status: "Approved", amount: "25,575.00", currency: "USD",
+    stage: "Stage 3", status: "Pending Approval", amount: "25,575.00", currency: "USD",
   },
   {
     invoiceNo: "A03680", poNo: "26010550, 26010785, 26020191", contractNo: "—",
@@ -78,6 +77,6 @@ export const INVOICES: InvoiceRow[] = [
     receivedDate: "05-Apr-2026", processedDate: "05-Apr-2026 09:15",
     vendor: "Nikken Foods Co., Ltd.", approver: "—",
     approvalDate: "—", reference: "IMP-2026-Q1-0089",
-    matched: 3, total: 5, status: "Pending Approval", amount: "24,322.00", currency: "USD",
+    stage: "Stage 2", status: "Pending Approval", amount: "24,322.00", currency: "USD",
   },
 ];

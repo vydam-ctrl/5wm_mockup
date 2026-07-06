@@ -61,7 +61,7 @@ const VI_DICT: Record<string, string> = {
 
   // ---- AppShell: status badge ----
   "Approved": "Đã duyệt",
-  "Pending Approval": "Chờ phê duyệt",
+  "Pending Approval": "Chờ duyệt",
   "Pending": "Chờ duyệt",
   "Rejected": "Từ chối",
   "Cancelled": "Đã hủy",

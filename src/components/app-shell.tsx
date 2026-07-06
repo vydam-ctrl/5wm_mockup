@@ -121,16 +121,3 @@ export function StatusBadge({ status }: { status: string }) {
     </span>
   );
 }
-
-export function MatchProgress({ matched, total }: { matched: number; total: number }) {
-  const pct = (matched / total) * 100;
-  const color = matched === total ? "bg-success" : matched >= 3 ? "bg-warning" : "bg-error";
-  return (
-    <div className="flex items-center gap-2 min-w-[110px]">
-      <div className="flex-1 h-1.5 bg-muted rounded-sm overflow-hidden">
-        <div className={`h-full ${color}`} style={{ width: `${pct}%` }} />
-      </div>
-      <span className="text-[11px] text-text-secondary tabular-nums">{matched}/{total}</span>
-    </div>
-  );
-}
