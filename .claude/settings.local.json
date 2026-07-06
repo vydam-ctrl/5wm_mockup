@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c ' *)",
+      "Bash(grep -n \"function InformationTab\\\\|function InvoiceDetailPage\\\\|breadcrumb\\\\|mainTab ===\\\\|infoTab ===\\\\|StatusBadge\\\\|SHIPMENT\\\\.\" /Users/maivy/Downloads/import-align-hub-main/src/routes/invoice.\\\\$id.tsx | head -80)"
+    ]
+  }
+}
