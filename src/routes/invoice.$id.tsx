@@ -5,9 +5,9 @@ import { AppShell, StatusBadge } from "@/components/app-shell";
 import { SHIPMENT } from "@/lib/shipment-data";
 import {
   ChevronRight, ChevronLeft, Download,
-  ZoomIn, ZoomOut, FileText, CheckCircle2, XCircle, Check,
+  ZoomIn, ZoomOut, FileText, CheckCircle2, XCircle, Check, Clock,
   Webhook, FileDown, ScanText, GitCompareArrows, Landmark, PackageCheck, UserCheck, ShieldCheck, Server,
-  ChevronDown, Pencil, Trash2, Plus, ChevronsLeft, ChevronsRight, RotateCcw, AlertTriangle,
+  ChevronDown, Pencil, Trash2, Plus, ChevronsLeft, ChevronsRight, RotateCcw, AlertTriangle, Inbox,
 } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
@@ -21,7 +21,7 @@ type StageTab = "Stage 1" | "Stage 2" | "Stage 3";
 type DeclarationVariant = "Original" | "Adjusted";
 type DocSetStatus = "Approved" | "Pending" | "Rejected";
 type PhaseState = { status: DocSetStatus; reason?: string };
-type ActivityEvent = { t: string; icon: LucideIcon; title: string; who: string; desc: string };
+type ActivityEvent = { date: string; t: string; icon: LucideIcon; title: string; who: string; desc: string };
 const CURRENT_USER = "Nguyen Thi Lan · Finance Manager";
 
 type FieldRow = { key: string; value: string; wide?: boolean; mono?: boolean };
@@ -30,129 +30,597 @@ type GoodsRow = { id: number; description: string; netWeight: string; grossWeigh
 type EditableInfoTab = Exclude<InfoTab, "Customs Declaration">;
 type DocData = { header: FieldRow[]; bank?: FieldRow[]; items?: ItemRow[]; goods?: GoodsRow[] };
 
-const INITIAL_INFO_DATA: Record<EditableInfoTab, DocData> = {
-  "Invoice": {
-    header: [
-      { key: "Invoice Number", value: "LH261730" },
-      { key: "Invoice Date", value: "2026-04-05" },
-      { key: "Contract Number", value: "26030025" },
-      { key: "Vendor Name", value: "QINHUANGDAO LIHUA STARCH CO., LTD." },
-      { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
-      { key: "Currency", value: "USD" },
-      { key: "Incoterms", value: "CIF" },
-      { key: "Delivery Place", value: "HAIPHONG, VIETNAM" },
-      { key: "Payment Term", value: "TT 30 DAYS FROM B/L DATE" },
-      { key: "Total Amount", value: "25,575.00" },
-      { key: "Total Quantity", value: "55" },
-      { key: "Quantity UoM", value: "MTS" },
-      { key: "Net Weight", value: "55,220" },
-      { key: "Transport Mode", value: "SEA" },
-      { key: "Shipment Route", value: "JINGTANG PORT, CHINA -> HAIPHONG, VIETNAM", wide: true },
-    ],
-    bank: [
-      { key: "Beneficiary Name", value: "QINHUANGDAO LIHUA STARCH CO., LTD.", wide: true },
-      { key: "Bank Name", value: "INDUSTRIAL AND COMMERCIAL BANK OF CHINA - QINHUANGDAO BRANCH FUNING SUB-BRANCH", wide: true },
-      { key: "SWIFT/BIC", value: "ICBKCNBJQHD" },
-      { key: "Bank Account", value: "0404012009300047288" },
-    ],
-    items: [
-      { id: 1, productName: "DEXTROSE MONOHYDRATE FOOD GRADE", qty: "55", uom: "MTS", unitPrice: "465.00", lineAmount: "25,575.00" },
-    ],
-  },
-  "Purchase Order": {
-    header: [
-      { key: "PO Number", value: "26030025" },
-      { key: "PO Date", value: "2026-03-02" },
-      { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
-      { key: "Buyer Tax Code", value: "0304918352" },
-      { key: "Seller Name", value: "Qinhuangdao Lihua Starch Co., Ltd." },
-      { key: "Seller Code", value: "30100108" },
-      { key: "Currency", value: "USD" },
-      { key: "Incoterm", value: "CIF" },
-      { key: "Incoterm Location", value: "HAI PHONG" },
-      { key: "Shipment Mode", value: "SEA" },
-      { key: "Port of Discharge", value: "DINH VU PORT" },
-      { key: "Payment Term", value: "TT 30 days from B/L date" },
-      { key: "Requested ETD", value: "2026-04-09" },
-      { key: "Total Quantity", value: "55,000" },
-      { key: "Total Amount", value: "25,575.00" },
-    ],
-    bank: [
-      { key: "Beneficiary Name", value: "QINHUANGDAO LIHUA STARCH CO., LTD.", wide: true },
-      { key: "Bank Name", value: "Industrial And Commercial Bank of China - Qingdao Branch, Funing Sub-Branch", wide: true },
-      { key: "SWIFT/BIC", value: "ICBKCNBJQHD" },
-      { key: "Bank Account", value: "0404012009300047288" },
-    ],
-    items: [
-      { id: 1, productName: "Dextrose Monohydrate - Lihua", qty: "55,000", uom: "KG", unitPrice: "0.4650", currency: "USD", lineAmount: "25,575.00" },
-    ],
-  },
-  "Sales Contract": {
-    header: [],
-    items: [],
-  },
-  "Bill of Lading": {
-    header: [
-      { key: "B/L Number", value: "JTHPH26S03802", mono: true },
-      { key: "Transport Mode", value: "SEA" },
-      { key: "Shipper Name", value: "QINHUANGDAO LIHUA STARCH CO., LTD." },
-      { key: "Shipper Address", value: "No.89, Lihua Street, Funing District, Qinhuangdao City, Hebei Province, China", wide: true },
-      { key: "Consignee Name", value: "ASIA CHEMICAL CORPORATION" },
-      { key: "Consignee Address", value: "Lot K4B, Le Minh Xuan Industrial Zone, Road No.4, Binh Loi Commune, Ho Chi Minh City, Vietnam", wide: true },
-      { key: "Notify Party", value: "SAME AS CONSIGNEE" },
-      { key: "Vessel / Voyage", value: "LIANG XIANG 82 / 2606S" },
-      { key: "Place of Receipt", value: "JINGTANG PORT, CHINA" },
-      { key: "Port of Loading", value: "JINGTANG PORT, CHINA" },
-      { key: "Port of Discharge", value: "HAIPHONG, VIETNAM" },
-      { key: "Place of Delivery", value: "HAIPHONG, VIETNAM" },
-      { key: "Incoterms", value: "—" },
-      { key: "Freight Term", value: "FREIGHT PREPAID" },
-      { key: "Laden On Board", value: "2026-04-14" },
-      { key: "B/L Issue", value: "2026-04-14" },
-      { key: "Gross Weight", value: "55,220 KGS" },
-      { key: "Measurement", value: "100 CBM" },
-      { key: "Total Packages", value: "2,200 BAGS" },
-      { key: "Country of Origin", value: "China" },
-    ],
-    goods: [
-      { id: 1, description: "DEXTROSE MONOHYDRATE FOOD GRADE", netWeight: "—", grossWeight: "55,220 KGS" },
-    ],
-  },
+type SingularInfoTab = "Invoice" | "Bill of Lading";
+type LinkedDocRecord = { id: string; label: string; fileUrl: string | null; data: DocData };
+
+type StageDoc = { label: string; docNo: string; qty?: string; unitPrice?: string; lineAmount?: string };
+type ItemMatchLine = {
+  id: number;
+  itemCode: string;
+  productName: string;
+  uom: string;
+  qty: string;
+  unitPrice: string;
+  lineAmount: string;
+  matchedDocs: Record<StageTab, StageDoc[]>;
+};
+type StageBanner = { text: string; tone: "success" | "pending" | "notStarted" };
+type CustomsItemRow = {
+  hsCode: string; description: string; qty: string; uom: string; unitPrice: string;
+  invoiceValue: string; taxableValueVnd: string; importTaxPct: string; importTaxVnd: string; vatPct: string; vatVnd: string;
 };
 
-const CUSTOMS_HEADER_FIELDS: FieldRow[] = [
-  { key: "Declaration Number", value: "108189893450", mono: true },
-  { key: "Type Code", value: "A11" },
-  { key: "Registration Date", value: "2026-04-28 10:11:38" },
-  { key: "Importer Name", value: "ASIA CHEMICAL CORPORATION", wide: true },
-  { key: "Importer Tax Code", value: "0304918352" },
-  { key: "Exporter Name", value: "QINHUANGDAO LIHUA STARCH CO., LTD.", wide: true },
-  { key: "Exporter Country", value: "CN" },
-  { key: "B/L Number", value: "JTHPH26S03802" },
-  { key: "Invoice Number", value: "LH261730" },
-  { key: "Invoice Issue Date", value: "2026-04-05" },
-  { key: "Invoice Value", value: "25,575.00 USD" },
-  { key: "Incoterms", value: "CIF" },
-  { key: "Payment Method", value: "KC" },
-  { key: "Payment Term", value: "T/T" },
-  { key: "Gross Weight", value: "55,220 KGM" },
-  { key: "Cargo Arrival Date", value: "2026-04-25" },
-  { key: "Exchange Rate", value: "26,130" },
-  { key: "Transport Means", value: "HE SHENG 2606S" },
-  { key: "Loading Location", value: "JINGTANG" },
-  { key: "Unloading Location", value: "DINH VU NAM HAI" },
-  { key: "Taxable Value Total", value: "668,274,750 VND" },
-  { key: "VAT Amount Total", value: "53,461,980 VND" },
-];
+type InvoiceProfile = {
+  stage: StageTab;
+  infoData: Record<SingularInfoTab, DocData>;
+  purchaseOrders: LinkedDocRecord[];
+  salesContracts: LinkedDocRecord[];
+  customsHeaderFields: FieldRow[];
+  customsItems: CustomsItemRow[];
+  pdfMap: Record<"Invoice" | "Bill of Lading" | "Customs Declaration", string>;
+  stageDocs: Record<StageTab, StageDoc[]>;
+  stageBanners: Record<StageTab, StageBanner[]>;
+  stageComplete: Record<StageTab, boolean>;
+  headerMatchRows: string[][];
+  itemMatchLines: ItemMatchLine[];
+  activityEvents: ActivityEvent[];
+  activityHeaderLabel: string;
+  approverName: string;
+  approverTime: string;
+};
+
+function sumItemAmounts(items: ItemRow[]): string {
+  const total = items.reduce((acc, r) => acc + (parseFloat(r.lineAmount.replace(/,/g, "")) || 0), 0);
+  return total.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function sumFormatted(values: string[], decimals: number): string {
+  const total = values.reduce((acc, v) => acc + (parseFloat(v.replace(/,/g, "")) || 0), 0);
+  return total.toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+}
+
+function isoToDisplayDate(iso: string): string {
+  const [y, m, d] = iso.split("-");
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const mi = parseInt(m, 10) - 1;
+  if (!y || !m || !d || mi < 0 || mi > 11) return iso;
+  return `${d}-${months[mi]}-${y}`;
+}
+
+const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
+  // ---- Qinhuangdao Lihua Starch (LH261730) — moved in verbatim from the original module-level constants ----
+  LH261730: {
+    stage: "Stage 3",
+    infoData: {
+      "Invoice": {
+        header: [
+          { key: "Invoice Number", value: "LH261730" },
+          { key: "Invoice Date", value: "2026-04-05" },
+          { key: "Order Number", value: "26030025" },
+          { key: "Vendor Name", value: "QINHUANGDAO LIHUA STARCH CO., LTD." },
+          { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
+          { key: "Currency", value: "USD" },
+          { key: "Incoterms", value: "CIF" },
+          { key: "Delivery Place", value: "HAIPHONG, VIETNAM" },
+          { key: "Payment Term", value: "TT 30 DAYS FROM B/L DATE" },
+          { key: "Total Amount", value: "25,575.00" },
+          { key: "Total Quantity", value: "55" },
+          { key: "Quantity UoM", value: "MTS" },
+          { key: "Net Weight", value: "55,220" },
+          { key: "Transport Mode", value: "SEA" },
+          { key: "Shipment Route", value: "JINGTANG PORT, CHINA -> HAIPHONG, VIETNAM", wide: true },
+        ],
+        bank: [
+          { key: "Beneficiary Name", value: "QINHUANGDAO LIHUA STARCH CO., LTD.", wide: true },
+          { key: "Bank Name", value: "INDUSTRIAL AND COMMERCIAL BANK OF CHINA - QINHUANGDAO BRANCH FUNING SUB-BRANCH", wide: true },
+          { key: "SWIFT/BIC", value: "ICBKCNBJQHD" },
+          { key: "Bank Account", value: "0404012009300047288" },
+        ],
+        items: [
+          { id: 1, productName: "DEXTROSE MONOHYDRATE FOOD GRADE", qty: "55", uom: "MTS", unitPrice: "465.00", lineAmount: "25,575.00" },
+        ],
+      },
+      "Bill of Lading": {
+        header: [
+          { key: "B/L Number", value: "JTHPH26S03802", mono: true },
+          { key: "Transport Mode", value: "SEA" },
+          { key: "Shipper Name", value: "QINHUANGDAO LIHUA STARCH CO., LTD." },
+          { key: "Shipper Address", value: "No.89, Lihua Street, Funing District, Qinhuangdao City, Hebei Province, China", wide: true },
+          { key: "Consignee Name", value: "ASIA CHEMICAL CORPORATION" },
+          { key: "Consignee Address", value: "Lot K4B, Le Minh Xuan Industrial Zone, Road No.4, Binh Loi Commune, Ho Chi Minh City, Vietnam", wide: true },
+          { key: "Notify Party", value: "SAME AS CONSIGNEE" },
+          { key: "Vessel / Voyage", value: "LIANG XIANG 82 / 2606S" },
+          { key: "Place of Receipt", value: "JINGTANG PORT, CHINA" },
+          { key: "Port of Loading", value: "JINGTANG PORT, CHINA" },
+          { key: "Port of Discharge", value: "HAIPHONG, VIETNAM" },
+          { key: "Place of Delivery", value: "HAIPHONG, VIETNAM" },
+          { key: "Incoterms", value: "—" },
+          { key: "Freight Term", value: "FREIGHT PREPAID" },
+          { key: "Laden On Board", value: "2026-04-14" },
+          { key: "B/L Issue", value: "2026-04-14" },
+          { key: "Gross Weight", value: "55,220 KGS" },
+          { key: "Measurement", value: "100 CBM" },
+          { key: "Total Packages", value: "2,200 BAGS" },
+          { key: "Country of Origin", value: "China" },
+        ],
+        goods: [
+          { id: 1, description: "DEXTROSE MONOHYDRATE FOOD GRADE", netWeight: "—", grossWeight: "55,220 KGS" },
+        ],
+      },
+    },
+    purchaseOrders: [
+      {
+        id: "po-1",
+        label: "26030025",
+        fileUrl: "/pdfs/Purchase_Order_Qinhuangdao Lihua.pdf",
+        data: {
+          header: [
+            { key: "PO Number", value: "26030025" },
+            { key: "PO Date", value: "2026-03-02" },
+            { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
+            { key: "Buyer Tax Code", value: "0304918352" },
+            { key: "Seller Name", value: "Qinhuangdao Lihua Starch Co., Ltd." },
+            { key: "Seller Code", value: "30100108" },
+            { key: "Currency", value: "USD" },
+            { key: "Incoterm", value: "CIF" },
+            { key: "Incoterm Location", value: "HAI PHONG" },
+            { key: "Shipment Mode", value: "SEA" },
+            { key: "Port of Discharge", value: "DINH VU PORT" },
+            { key: "Payment Term", value: "TT 30 days from B/L date" },
+            { key: "Requested ETD", value: "2026-04-09" },
+            { key: "Total Quantity", value: "55,000" },
+            { key: "Total Amount", value: "25,575.00" },
+          ],
+          bank: [
+            { key: "Beneficiary Name", value: "QINHUANGDAO LIHUA STARCH CO., LTD.", wide: true },
+            { key: "Bank Name", value: "Industrial And Commercial Bank of China - Qingdao Branch, Funing Sub-Branch", wide: true },
+            { key: "SWIFT/BIC", value: "ICBKCNBJQHD" },
+            { key: "Bank Account", value: "0404012009300047288" },
+          ],
+          items: [
+            { id: 1, productName: "Dextrose Monohydrate - Lihua", qty: "55,000", uom: "KG", unitPrice: "0.4650", currency: "USD", lineAmount: "25,575.00" },
+          ],
+        },
+      },
+    ],
+    salesContracts: [],
+    customsHeaderFields: [
+      { key: "Declaration Number", value: "108189893450", mono: true },
+      { key: "Type Code", value: "A11" },
+      { key: "Registration Date", value: "2026-04-28 10:11:38" },
+      { key: "Importer Name", value: "ASIA CHEMICAL CORPORATION", wide: true },
+      { key: "Importer Tax Code", value: "0304918352" },
+      { key: "Exporter Name", value: "QINHUANGDAO LIHUA STARCH CO., LTD.", wide: true },
+      { key: "Exporter Country", value: "CN" },
+      { key: "B/L Number", value: "JTHPH26S03802" },
+      { key: "Invoice Number", value: "LH261730" },
+      { key: "Invoice Issue Date", value: "2026-04-05" },
+      { key: "Invoice Value", value: "25,575.00 USD" },
+      { key: "Incoterms", value: "CIF" },
+      { key: "Payment Method", value: "KC" },
+      { key: "Payment Term", value: "T/T" },
+      { key: "Gross Weight", value: "55,220 KGM" },
+      { key: "Cargo Arrival Date", value: "2026-04-25" },
+      { key: "Exchange Rate", value: "26,130" },
+      { key: "Transport Means", value: "HE SHENG 2606S" },
+      { key: "Loading Location", value: "JINGTANG" },
+      { key: "Unloading Location", value: "DINH VU NAM HAI" },
+      { key: "Taxable Value Total", value: "668,274,750 VND" },
+      { key: "VAT Amount Total", value: "53,461,980 VND" },
+    ],
+    customsItems: [
+      { hsCode: "17023010", description: "DEXTROSE MONOHYDRATE", qty: "55,000", uom: "KGM", unitPrice: "0.465", invoiceValue: "25,575.00", taxableValueVnd: "668,274,750", importTaxPct: "0", importTaxVnd: "0", vatPct: "8", vatVnd: "53,461,980" },
+    ],
+    pdfMap: {
+      "Invoice": "/pdfs/Invoice_Qinhuangdao Lihua.pdf",
+      "Bill of Lading": "/pdfs/Bill_of_Lading_Qinhuangdao Lihua.pdf",
+      "Customs Declaration": "/pdfs/Customs_Declaration_Qinhuangdao Lihua.pdf",
+    },
+    stageDocs: {
+      "Stage 1": [
+        { label: "Purchase Order", docNo: SHIPMENT.poNo },
+        { label: "Bill of Lading", docNo: SHIPMENT.blNo },
+      ],
+      "Stage 2": [
+        { label: "Purchase Order", docNo: SHIPMENT.poNo },
+        { label: "Bill of Lading", docNo: SHIPMENT.blNo },
+        { label: "Customs Declaration", docNo: SHIPMENT.customsNo },
+      ],
+      "Stage 3": [
+        { label: "Purchase Order", docNo: SHIPMENT.poNo },
+        { label: "Bill of Lading", docNo: SHIPMENT.blNo },
+        { label: "Customs Declaration", docNo: SHIPMENT.customsNo },
+        { label: "Goods Receipt", docNo: SHIPMENT.grNo },
+      ],
+    },
+    stageBanners: {
+      "Stage 1": [
+        { text: "Matching Stage 1 completed — Invoice ↔ PO ↔ Contract ↔ BL reconciled. 100% matched.", tone: "success" },
+        { text: "Tran Van Minh confirmed at 08:25 on 30-Apr-2026", tone: "success" },
+      ],
+      "Stage 2": [
+        { text: "Matching Stage 2 completed — Customs Declaration added. All header + item lines matched.", tone: "success" },
+        { text: "Tran Van Minh confirmed at 10:25 on 03-May-2026", tone: "success" },
+      ],
+      "Stage 3": [
+        { text: "Matching Stage 3 completed — 5-Way match closed with zero variance.", tone: "success" },
+      ],
+    },
+    stageComplete: { "Stage 1": true, "Stage 2": true, "Stage 3": true },
+    headerMatchRows: [
+      ["Vendor", "Lihua Starch", "Lihua Starch", "Lihua Starch", "Lihua Starch", "Lihua Starch", "Lihua Starch"],
+      ["Buyer / Consignee", "Asia Chemical", "Asia Chemical", "Asia Chemical", "Asia Chemical", "Asia Chemical", "Asia Chemical"],
+      ["PO Number", SHIPMENT.poNo, SHIPMENT.poNo, "—", "—", "—", SHIPMENT.poNo],
+      ["Currency", "USD", "USD", "USD", "—", "USD", "USD"],
+      ["Incoterm", "CIF Hai Phong", "CIF Hai Phong", "CIF Hai Phong", "—", "CIF", "—"],
+      ["Payment Term", "TT 30D BL", "TT 30D BL", "TT 30D BL", "—", "—", "—"],
+      ["Bank", "BOC Qinhuangdao", "BOC Qinhuangdao", "—", "—", "—", "—"],
+      ["Shipment / Vessel", "HE SHENG 2606S", "—", "—", "HE SHENG 2606S", "HE SHENG 2606S", "—"],
+      ["Container", "2 x 40HC", "—", "—", "2 x 40HC", "2 x 40HC", "—"],
+      ["Invoice Amount", "25,575.00 USD", "25,575.00 USD", "25,575.00 USD", "—", "25,575.00 USD", "—"],
+    ],
+    itemMatchLines: [
+      {
+        id: 1, itemCode: "DEX-FG-001", productName: SHIPMENT.product, uom: "MTS", qty: "55,000", unitPrice: "465.00", lineAmount: SHIPMENT.amount,
+        matchedDocs: {
+          "Stage 1": [
+            { label: "Purchase Order", docNo: SHIPMENT.poNo, qty: "55,000", unitPrice: "465.00", lineAmount: SHIPMENT.amount },
+            { label: "Bill of Lading", docNo: SHIPMENT.blNo, qty: "55,000", unitPrice: "465.00", lineAmount: SHIPMENT.amount },
+          ],
+          "Stage 2": [
+            { label: "Purchase Order", docNo: SHIPMENT.poNo, qty: "55,000", unitPrice: "465.00", lineAmount: SHIPMENT.amount },
+            { label: "Bill of Lading", docNo: SHIPMENT.blNo, qty: "55,000", unitPrice: "465.00", lineAmount: SHIPMENT.amount },
+            { label: "Customs Declaration", docNo: SHIPMENT.customsNo, qty: "55,000", unitPrice: "465.00", lineAmount: SHIPMENT.amount },
+          ],
+          "Stage 3": [
+            { label: "Purchase Order", docNo: SHIPMENT.poNo, qty: "55,000", unitPrice: "465.00", lineAmount: SHIPMENT.amount },
+            { label: "Bill of Lading", docNo: SHIPMENT.blNo, qty: "55,000", unitPrice: "465.00", lineAmount: SHIPMENT.amount },
+            { label: "Customs Declaration", docNo: SHIPMENT.customsNo, qty: "55,000", unitPrice: "465.00", lineAmount: SHIPMENT.amount },
+            { label: "Goods Receipt", docNo: SHIPMENT.grNo, qty: "55,000", unitPrice: "465.00", lineAmount: SHIPMENT.amount },
+          ],
+        },
+      },
+    ],
+    activityEvents: [
+      { date: "30-Apr", t: "08:10", icon: Webhook, title: "Webhook received", who: "System · Impex Portal", desc: "Inbound shipment notification LH261730 received via webhook." },
+      { date: "30-Apr", t: "08:11", icon: FileDown, title: "Commercial Invoice synchronized", who: "System", desc: "Invoice document downloaded from vendor portal." },
+      { date: "30-Apr", t: "08:11", icon: FileDown, title: "Sales Contract synchronized", who: "System", desc: "Contract 26030025 attached to invoice." },
+      { date: "30-Apr", t: "08:12", icon: FileDown, title: "Bill of Lading synchronized", who: "System · Freight Forwarder", desc: "BL JTHPH26S03802 received." },
+      { date: "30-Apr", t: "08:12", icon: FileDown, title: "Customs Declaration synchronized", who: "System · VNACCS", desc: "Customs declaration 105678923420 linked." },
+      { date: "30-Apr", t: "08:15", icon: ScanText, title: "OCR completed", who: "System · OCR Engine v3.1", desc: "Structured extraction on 5 documents · 214 fields captured." },
+      { date: "30-Apr", t: "08:18", icon: GitCompareArrows, title: "Matching Stage 1 completed", who: "System", desc: "Invoice ↔ PO ↔ Contract ↔ BL reconciled. 100% matched." },
+      { date: "30-Apr", t: "08:20", icon: Landmark, title: "Matching Stage 2 completed", who: "System", desc: "Customs Declaration added. All header + item lines matched." },
+      { date: "30-Apr", t: "08:23", icon: PackageCheck, title: "Goods Receipt synchronized", who: "System · SAP MM", desc: "GR 5000335133 posted for 55,000 KG." },
+      { date: "30-Apr", t: "08:24", icon: GitCompareArrows, title: "Matching Stage 3 completed", who: "System", desc: "5-Way match closed with zero variance." },
+      { date: "30-Apr", t: "08:25", icon: UserCheck, title: "Merchandise confirmed", who: "Tran Van Minh · Merchandise", desc: "Quantities and quality verified against GR." },
+      { date: "30-Apr", t: "08:28", icon: ShieldCheck, title: "Finance approved", who: "Nguyen Thi Lan · Finance Manager", desc: "Approved for ERP posting. Payment scheduled 14-May-2026." },
+      { date: "30-Apr", t: "08:29", icon: Server, title: "ERP posting completed", who: "System · SAP FI", desc: "Document 5105003321 posted to company code 1000." },
+    ],
+    activityHeaderLabel: "30-Apr-2026 · {n} events",
+    approverName: "Tran Van Minh",
+    approverTime: "08:25",
+  },
+
+  // ---- Nikken Foods (A03680) — 1 invoice ↔ 3 POs, 0 Sales Contracts, mid-reconciliation at Stage 2 ----
+  A03680: {
+    stage: "Stage 2",
+    infoData: {
+      "Invoice": {
+        header: [
+          { key: "Invoice Number", value: "A03680" },
+          { key: "Invoice Date", value: "2026-03-02" },
+          { key: "Order Number", value: "26010550, 26010785, 26020191" },
+          { key: "Vendor Name", value: "NIKKEN FOODS CO., LTD." },
+          { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
+          { key: "Currency", value: "USD" },
+          { key: "Incoterms", value: "CIF" },
+          { key: "Delivery Place", value: "HO CHI MINH CITY, VIETNAM" },
+          { key: "Payment Term", value: "T/T 60 DAYS AFTER B/L DATE" },
+          { key: "Total Amount", value: "24,322.00" },
+          { key: "Total Quantity", value: "4,520" },
+          { key: "Quantity UoM", value: "KGS" },
+          { key: "Net Weight", value: "4,520" },
+          { key: "Transport Mode", value: "SEA" },
+          { key: "Shipment Route", value: "YOKOHAMA, JAPAN -> HO CHI MINH CITY, VIETNAM", wide: true },
+        ],
+        bank: [
+          { key: "Beneficiary Name", value: "NIKKEN FOODS CO., LTD.", wide: true },
+          { key: "Bank Name", value: "MIZUHO BANK LTD, HAMAMATSU BRANCH", wide: true },
+          { key: "SWIFT/BIC", value: "MHCBJPJT" },
+          { key: "Bank Account", value: "1165949" },
+        ],
+        items: [
+          { id: 1, productName: "VEGETABLE POWDER P007", qty: "4,000", uom: "KG", unitPrice: "5.25", lineAmount: "21,000.00" },
+          { id: 2, productName: "SOY SAUCE POWDER A6016", qty: "500", uom: "KG", unitPrice: "6.30", lineAmount: "3,150.00" },
+          { id: 3, productName: "MEAT SEASONING A6391", qty: "20", uom: "KG", unitPrice: "8.60", lineAmount: "172.00" },
+        ],
+      },
+      "Bill of Lading": {
+        header: [
+          { key: "B/L Number", value: "YOKDKK23592", mono: true },
+          { key: "Transport Mode", value: "SEA" },
+          { key: "Shipper Name", value: "NIKKEN FOODS CO., LTD." },
+          { key: "Shipper Address", value: "Marukashiwa Bldg. 8F, 1-6-1 Nihonbashi Honcho, Chuo-ku, Tokyo 103-0023, Japan", wide: true },
+          { key: "Consignee Name", value: "ASIA CHEMICAL CORPORATION" },
+          { key: "Consignee Address", value: "Lot K4B, Le Minh Xuan Industrial Zone, Road No.4, Binh Loi Commune, Ho Chi Minh City, Vietnam", wide: true },
+          { key: "Notify Party", value: "SAME AS CONSIGNEE" },
+          { key: "Vessel / Voyage", value: "ADDISON / 050S" },
+          { key: "Place of Receipt", value: "YOKOHAMA, CY" },
+          { key: "Port of Loading", value: "YOKOHAMA, JAPAN" },
+          { key: "Port of Discharge", value: "CAI MEP, VIETNAM" },
+          { key: "Place of Delivery", value: "HO CHI MINH CITY, CY" },
+          { key: "Incoterms", value: "—" },
+          { key: "Freight Term", value: "FREIGHT PREPAID AS ARRANGED" },
+          { key: "Laden On Board", value: "2026-03-12" },
+          { key: "B/L Issue", value: "2026-03-12" },
+          { key: "Gross Weight", value: "4,713.00 KG" },
+          { key: "Measurement", value: "14.439 M3" },
+          { key: "Total Packages", value: "13 PACKAGES" },
+          { key: "Country of Origin", value: "Japan" },
+        ],
+        goods: [
+          { id: 1, description: "NATURAL FLAVORS (VEGETABLE POWDER P007 / SOY SAUCE POWDER A6016 / MEAT SEASONING A6391)", netWeight: "4,520 KGS", grossWeight: "4,713.00 KG" },
+        ],
+      },
+    },
+    purchaseOrders: [
+      {
+        id: "po-1",
+        label: "26010550",
+        fileUrl: "/pdfs/Purchase_Order_Nikken_26010550.pdf",
+        data: {
+          header: [
+            { key: "PO Number", value: "26010550" },
+            { key: "PO Date", value: "2026-01-20" },
+            { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
+            { key: "Buyer Tax Code", value: "0304918352" },
+            { key: "Seller Name", value: "Nikken Foods Co., Ltd." },
+            { key: "Seller Code", value: "30100030" },
+            { key: "Currency", value: "USD" },
+            { key: "Incoterm", value: "CIF" },
+            { key: "Incoterm Location", value: "HO CHI MINH" },
+            { key: "Shipment Mode", value: "SEA" },
+            { key: "Port of Discharge", value: "CAT LAI PORT" },
+            { key: "Payment Term", value: "TT 60 days from B/L date" },
+            { key: "Requested ETD", value: "2026-03-09" },
+            { key: "Total Quantity", value: "4,000" },
+            { key: "Total Amount", value: "21,000.00" },
+          ],
+          bank: [
+            { key: "Beneficiary Name", value: "NIKKEN FOODS CO., LTD.", wide: true },
+            { key: "Bank Name", value: "MIZUHO BANK LTD, HAMAMATSU BRANCH", wide: true },
+            { key: "SWIFT/BIC", value: "MHCBJPJT" },
+            { key: "Bank Account", value: "1165949" },
+          ],
+          items: [
+            { id: 1, productName: "Vegetable Powder P007", qty: "4,000", uom: "KG", unitPrice: "5.2500", currency: "USD", lineAmount: "21,000.00" },
+          ],
+        },
+      },
+      {
+        id: "po-2",
+        label: "26010785",
+        fileUrl: "/pdfs/Purchase_Order_Nikken_26010785.pdf",
+        data: {
+          header: [
+            { key: "PO Number", value: "26010785" },
+            { key: "PO Date", value: "2026-01-26" },
+            { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
+            { key: "Buyer Tax Code", value: "0304918352" },
+            { key: "Seller Name", value: "Nikken Foods Co., Ltd." },
+            { key: "Seller Code", value: "30100030" },
+            { key: "Currency", value: "USD" },
+            { key: "Incoterm", value: "CIF" },
+            { key: "Incoterm Location", value: "HO CHI MINH" },
+            { key: "Shipment Mode", value: "SEA" },
+            { key: "Port of Discharge", value: "CAT LAI PORT" },
+            { key: "Payment Term", value: "TT 60 days from B/L date" },
+            { key: "Requested ETD", value: "2026-03-09" },
+            { key: "Total Quantity", value: "500" },
+            { key: "Total Amount", value: "3,150.00" },
+          ],
+          bank: [
+            { key: "Beneficiary Name", value: "NIKKEN FOODS CO., LTD.", wide: true },
+            { key: "Bank Name", value: "MIZUHO BANK LTD, HAMAMATSU BRANCH", wide: true },
+            { key: "SWIFT/BIC", value: "MHCBJPJT" },
+            { key: "Bank Account", value: "1165949" },
+          ],
+          items: [
+            { id: 1, productName: "Soy Sauce Powder A6016", qty: "500", uom: "KG", unitPrice: "6.3000", currency: "USD", lineAmount: "3,150.00" },
+          ],
+        },
+      },
+      {
+        id: "po-3",
+        label: "26020191",
+        fileUrl: "/pdfs/Purchase_Order_Nikken_26020191.pdf",
+        data: {
+          header: [
+            { key: "PO Number", value: "26020191" },
+            { key: "PO Date", value: "2026-02-09" },
+            { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
+            { key: "Buyer Tax Code", value: "0304918352" },
+            { key: "Seller Name", value: "Nikken Foods Co., Ltd." },
+            { key: "Seller Code", value: "30100030" },
+            { key: "Currency", value: "USD" },
+            { key: "Incoterm", value: "CIF" },
+            { key: "Incoterm Location", value: "HO CHI MINH" },
+            { key: "Shipment Mode", value: "SEA" },
+            { key: "Port of Discharge", value: "CAT LAI PORT" },
+            { key: "Payment Term", value: "TT 60 days from B/L date" },
+            { key: "Requested ETD", value: "2026-03-09" },
+            { key: "Total Quantity", value: "20" },
+            { key: "Total Amount", value: "172.00" },
+          ],
+          bank: [
+            { key: "Beneficiary Name", value: "NIKKEN FOODS CO., LTD.", wide: true },
+            { key: "Bank Name", value: "MIZUHO BANK LTD, HAMAMATSU BRANCH", wide: true },
+            { key: "SWIFT/BIC", value: "MHCBJPJT" },
+            { key: "Bank Account", value: "1165949" },
+          ],
+          items: [
+            { id: 1, productName: "Meat Seasoning A6391", qty: "20", uom: "KG", unitPrice: "8.6000", currency: "USD", lineAmount: "172.00" },
+          ],
+        },
+      },
+    ],
+    salesContracts: [],
+    customsHeaderFields: [
+      { key: "Declaration Number", value: "108114267810", mono: true },
+      { key: "Type Code", value: "A11" },
+      { key: "Registration Date", value: "2026-04-02 20:22:03" },
+      { key: "Importer Name", value: "CÔNG TY CỔ PHẦN HÓA CHẤT Á CHÂU", wide: true },
+      { key: "Importer Tax Code", value: "0304918352" },
+      { key: "Exporter Name", value: "NIKKEN FOODS CO., LTD.", wide: true },
+      { key: "Exporter Country", value: "JP" },
+      { key: "B/L Number", value: "120326YOKDKK23592" },
+      { key: "Invoice Number", value: "A03680" },
+      { key: "Invoice Issue Date", value: "2026-03-02" },
+      { key: "Invoice Value", value: "24,322.00 USD" },
+      { key: "Incoterms", value: "CIF" },
+      { key: "Payment Method", value: "KC" },
+      { key: "Payment Term", value: "T/T" },
+      { key: "Gross Weight", value: "4,713 KGM" },
+      { key: "Cargo Arrival Date", value: "2026-03-23" },
+      { key: "Exchange Rate", value: "26,137" },
+      { key: "Transport Means", value: "ADDISON 050S" },
+      { key: "Loading Location", value: "YOKOHAMA - KANAGAWA" },
+      { key: "Unloading Location", value: "CANG SP ITC" },
+      { key: "Taxable Value Total", value: "635,704,114 VND" },
+      { key: "VAT Amount Total", value: "50,856,329 VND" },
+    ],
+    customsItems: [
+      { hsCode: "21039029", description: "VEGETABLE POWDER P007 (Bột gia vị hỗn hợp)", qty: "4,000", uom: "KGM", unitPrice: "5.25", invoiceValue: "21,000.00", taxableValueVnd: "548,877,000", importTaxPct: "0", importTaxVnd: "0", vatPct: "8", vatVnd: "43,910,160" },
+      { hsCode: "21039029", description: "MEAT SEASONING A6391 (Bột gia vị thịt)", qty: "20", uom: "KGM", unitPrice: "8.60", invoiceValue: "172.00", taxableValueVnd: "4,495,564", importTaxPct: "0", importTaxVnd: "0", vatPct: "8", vatVnd: "359,645" },
+      { hsCode: "21039029", description: "SOY SAUCE POWDER A6016 (Bột gia vị hỗn hợp)", qty: "500", uom: "KGM", unitPrice: "6.30", invoiceValue: "3,150.00", taxableValueVnd: "82,331,550", importTaxPct: "0", importTaxVnd: "0", vatPct: "8", vatVnd: "6,586,524" },
+    ],
+    pdfMap: {
+      "Invoice": "/pdfs/Invoice_Nikken.pdf",
+      "Bill of Lading": "/pdfs/Bill_of_Lading_Nikken.pdf",
+      "Customs Declaration": "/pdfs/Customs_Declaration_Nikken.pdf",
+    },
+    stageDocs: {
+      "Stage 1": [
+        { label: "Purchase Order", docNo: "26010550" },
+        { label: "Purchase Order", docNo: "26010785" },
+        { label: "Purchase Order", docNo: "26020191" },
+        { label: "Bill of Lading", docNo: "YOKDKK23592" },
+      ],
+      "Stage 2": [
+        { label: "Purchase Order", docNo: "26010550" },
+        { label: "Purchase Order", docNo: "26010785" },
+        { label: "Purchase Order", docNo: "26020191" },
+        { label: "Bill of Lading", docNo: "YOKDKK23592" },
+        { label: "Customs Declaration", docNo: "108114267810" },
+      ],
+      "Stage 3": [
+        { label: "Purchase Order", docNo: "26010550" },
+        { label: "Purchase Order", docNo: "26010785" },
+        { label: "Purchase Order", docNo: "26020191" },
+        { label: "Bill of Lading", docNo: "YOKDKK23592" },
+        { label: "Customs Declaration", docNo: "108114267810" },
+        { label: "Goods Receipt", docNo: "—" },
+      ],
+    },
+    stageBanners: {
+      "Stage 1": [
+        { text: "Matching Stage 1 completed — Invoice ↔ PO ↔ BL reconciled. 100% matched.", tone: "success" },
+        { text: "Tran Van Lai confirmed at 08:56 on 05-Feb-2026", tone: "success" },
+      ],
+      "Stage 2": [
+        { text: "Matching Stage 2 completed — Customs Declaration added. All header + item lines matched.", tone: "success" },
+      ],
+      "Stage 3": [],
+    },
+    stageComplete: { "Stage 1": true, "Stage 2": true, "Stage 3": false },
+    headerMatchRows: [
+      ["Vendor", "Nikken Foods", "Nikken Foods", "—", "Nikken Foods", "Nikken Foods", "—"],
+      ["Buyer / Consignee", "Asia Chemical", "Asia Chemical", "—", "Asia Chemical", "Asia Chemical", "—"],
+      ["PO Number", "26010550, 26010785, 26020191", "26010550, 26010785, 26020191", "—", "—", "—", "—"],
+      ["Contract Number", "Không áp dụng", "Không áp dụng", "Không áp dụng", "—", "—", "—"],
+      ["Currency", "USD", "USD", "—", "—", "USD", "—"],
+      ["Incoterm", "CIF Ho Chi Minh", "CIF Ho Chi Minh", "—", "—", "CIF", "—"],
+      ["Payment Term", "TT 60D BL", "TT 60D BL", "—", "—", "—", "—"],
+      ["Bank", "Mizuho Hamamatsu", "Mizuho Hamamatsu", "—", "—", "—", "—"],
+      ["Shipment / Vessel", "ADDISON 050S", "—", "—", "ADDISON 050S", "ADDISON 050S", "—"],
+      ["Container", "1 x 20' Dry", "—", "—", "1 x 20' Dry", "—", "—"],
+      ["Invoice Amount", "24,322.00 USD", "24,322.00 USD", "—", "—", "24,322.00 USD", "—"],
+    ],
+    itemMatchLines: [
+      {
+        id: 1, itemCode: "VGP-P007", productName: "VEGETABLE POWDER P007", uom: "KG", qty: "4,000", unitPrice: "5.2500", lineAmount: "21,000.00",
+        matchedDocs: {
+          "Stage 1": [
+            { label: "Purchase Order", docNo: "26010550", qty: "4,000", unitPrice: "5.2500", lineAmount: "21,000.00" },
+            { label: "Bill of Lading", docNo: "YOKDKK23592", qty: "4,000", unitPrice: "5.2500", lineAmount: "21,000.00" },
+          ],
+          "Stage 2": [
+            { label: "Purchase Order", docNo: "26010550", qty: "4,000", unitPrice: "5.2500", lineAmount: "21,000.00" },
+            { label: "Bill of Lading", docNo: "YOKDKK23592", qty: "4,000", unitPrice: "5.2500", lineAmount: "21,000.00" },
+            { label: "Customs Declaration", docNo: "108114267810", qty: "4,000", unitPrice: "5.25", lineAmount: "21,000.00" },
+          ],
+          "Stage 3": [],
+        },
+      },
+      {
+        id: 2, itemCode: "SSP-A6016", productName: "SOY SAUCE POWDER A6016", uom: "KG", qty: "500", unitPrice: "6.3000", lineAmount: "3,150.00",
+        matchedDocs: {
+          "Stage 1": [
+            { label: "Purchase Order", docNo: "26010785", qty: "500", unitPrice: "6.3000", lineAmount: "3,150.00" },
+            { label: "Bill of Lading", docNo: "YOKDKK23592", qty: "500", unitPrice: "6.3000", lineAmount: "3,150.00" },
+          ],
+          "Stage 2": [
+            { label: "Purchase Order", docNo: "26010785", qty: "500", unitPrice: "6.3000", lineAmount: "3,150.00" },
+            { label: "Bill of Lading", docNo: "YOKDKK23592", qty: "500", unitPrice: "6.3000", lineAmount: "3,150.00" },
+            { label: "Customs Declaration", docNo: "108114267810", qty: "500", unitPrice: "6.30", lineAmount: "3,150.00" },
+          ],
+          "Stage 3": [],
+        },
+      },
+      {
+        id: 3, itemCode: "MST-A6391", productName: "MEAT SEASONING A6391", uom: "KG", qty: "20", unitPrice: "8.6000", lineAmount: "172.00",
+        matchedDocs: {
+          "Stage 1": [
+            { label: "Purchase Order", docNo: "26020191", qty: "20", unitPrice: "8.6000", lineAmount: "172.00" },
+            { label: "Bill of Lading", docNo: "YOKDKK23592", qty: "20", unitPrice: "8.6000", lineAmount: "172.00" },
+          ],
+          "Stage 2": [
+            { label: "Purchase Order", docNo: "26020191", qty: "20", unitPrice: "8.6000", lineAmount: "172.00" },
+            { label: "Bill of Lading", docNo: "YOKDKK23592", qty: "20", unitPrice: "8.6000", lineAmount: "172.00" },
+            { label: "Customs Declaration", docNo: "108114267810", qty: "20", unitPrice: "8.60", lineAmount: "172.00" },
+          ],
+          "Stage 3": [],
+        },
+      },
+    ],
+    activityEvents: [
+      { date: "20-Jan", t: "09:00", icon: FileDown, title: "Purchase Order synchronized", who: "System · Vendor Portal", desc: "PO 26010550 (Vegetable Powder P007) received from vendor portal." },
+      { date: "26-Jan", t: "09:00", icon: FileDown, title: "Purchase Order synchronized", who: "System · Vendor Portal", desc: "PO 26010785 (Soy Sauce Powder A6016) received from vendor portal." },
+      { date: "09-Feb", t: "09:00", icon: FileDown, title: "Purchase Order synchronized", who: "System · Vendor Portal", desc: "PO 26020191 (Meat Seasoning A6391) received from vendor portal." },
+      { date: "02-Mar", t: "10:00", icon: FileDown, title: "Commercial Invoice synchronized", who: "System", desc: "Invoice A03680 downloaded from vendor portal." },
+      { date: "12-Mar", t: "14:00", icon: FileDown, title: "Bill of Lading synchronized", who: "System · Freight Forwarder", desc: "BL YOKDKK23592 received." },
+      { date: "13-Mar", t: "08:15", icon: ScanText, title: "OCR completed", who: "System · OCR Engine v3.1", desc: "Structured extraction on 5 documents · fields captured." },
+      { date: "18-Mar", t: "09:05", icon: GitCompareArrows, title: "Matching Stage 1 completed", who: "System", desc: "Invoice ↔ PO ↔ BL reconciled. 100% matched." },
+      { date: "02-Apr", t: "20:22", icon: Landmark, title: "Customs Declaration synchronized", who: "System · VNACCS", desc: "Customs declaration 108114267810 linked." },
+      { date: "03-Apr", t: "09:10", icon: Clock, title: "Matching Stage 2 in progress", who: "System", desc: "Customs Declaration added, pending Finance approval." },
+    ],
+    activityHeaderLabel: "{n} events",
+    approverName: "Tran Van Lai",
+    approverTime: "08:56",
+  },
+};
 
 function InvoiceDetailPage() {
   const { id } = Route.useParams();
   const { t } = useI18n();
+  const profile = INVOICE_PROFILES[id] ?? INVOICE_PROFILES.LH261730;
   const [mainTab, setMainTab] = useState<MainTab>("Matching");
   const [infoTab, setInfoTab] = useState<InfoTab>("Invoice");
-  const [stage, setStage] = useState<StageTab>("Stage 3");
+  const [stage, setStage] = useState<StageTab>(profile.stage);
   const [pdfCollapsed, setPdfCollapsed] = useState(false);
   const [declarationVariant, setDeclarationVariant] = useState<DeclarationVariant>("Original");
+  const [selectedPoId, setSelectedPoId] = useState(profile.purchaseOrders[0]?.id ?? "");
+  const [selectedContractId, setSelectedContractId] = useState(profile.salesContracts[0]?.id ?? "");
 
   useEffect(() => {
     if (infoTab !== "Customs Declaration") setDeclarationVariant("Original");
@@ -168,7 +636,27 @@ function InvoiceDetailPage() {
   const [resetConfirmOpen, setResetConfirmOpen] = useState(false);
   const [activityLog, setActivityLog] = useState<ActivityEvent[]>([]);
 
+  useEffect(() => {
+    setMainTab("Matching");
+    setInfoTab("Invoice");
+    setStage(profile.stage);
+    setDeclarationVariant("Original");
+    setSelectedPoId(profile.purchaseOrders[0]?.id ?? "");
+    setSelectedContractId(profile.salesContracts[0]?.id ?? "");
+    setPhaseStatus({
+      "Stage 1": { status: "Pending" },
+      "Stage 2": { status: "Pending" },
+      "Stage 3": { status: "Pending" },
+    });
+    setRejectStep(0);
+    setRejectReason("");
+    setResetConfirmOpen(false);
+    setActivityLog([]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
   const nowTime = () => new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+  const today = () => new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short" }).replace(" ", "-");
 
   const openReject = () => { setRejectReason(""); setRejectStep(1); };
   const closeReasonModal = () => { setRejectStep(0); setRejectReason(""); };
@@ -178,7 +666,7 @@ function InvoiceDetailPage() {
     setPhaseStatus((prev) => ({ ...prev, [stage]: { status: "Rejected", reason: rejectReason } }));
     setActivityLog((prev) => [
       ...prev,
-      { t: nowTime(), icon: XCircle, title: "Invoice rejected", who: CURRENT_USER, desc: `${t(stage)} · ${t("Reason")}: ${rejectReason}` },
+      { date: today(), t: nowTime(), icon: XCircle, title: "Invoice rejected", who: CURRENT_USER, desc: `${t(stage)} · ${t("Reason")}: ${rejectReason}` },
     ]);
     setRejectStep(0);
     setRejectReason("");
@@ -189,7 +677,7 @@ function InvoiceDetailPage() {
     setPhaseStatus((prev) => ({ ...prev, [stage]: { status: "Pending" } }));
     setActivityLog((prev) => [
       ...prev,
-      { t: nowTime(), icon: RotateCcw, title: "Invoice returned to pending", who: CURRENT_USER, desc: `${t(stage)}` },
+      { date: today(), t: nowTime(), icon: RotateCcw, title: "Invoice returned to pending", who: CURRENT_USER, desc: `${t(stage)}` },
     ]);
     setResetConfirmOpen(false);
   };
@@ -227,7 +715,7 @@ function InvoiceDetailPage() {
 
           {/* LEFT — PDF viewer */}
           <div className={`h-full min-w-0 min-h-0 grid ${pdfCollapsed ? "overflow-hidden pointer-events-none" : ""}`}>
-            <PdfViewer active={infoTab} declarationVariant={declarationVariant} />
+            <PdfViewer profile={profile} active={infoTab} declarationVariant={declarationVariant} selectedPoId={selectedPoId} selectedContractId={selectedContractId} />
           </div>
 
           {/* RIGHT */}
@@ -255,23 +743,32 @@ function InvoiceDetailPage() {
             <div className="flex-1 overflow-auto">
               {mainTab === "Information" && (
                 <InformationTab
+                  key={id}
+                  profile={profile}
                   infoTab={infoTab}
                   setInfoTab={setInfoTab}
                   stage={stage}
                   docStatus={phaseStatus[stage]}
                   declarationVariant={declarationVariant}
                   setDeclarationVariant={setDeclarationVariant}
+                  selectedPoId={selectedPoId}
+                  setSelectedPoId={setSelectedPoId}
+                  selectedContractId={selectedContractId}
+                  setSelectedContractId={setSelectedContractId}
                 />
               )}
               {mainTab === "Matching" && (
-                <MatchingTab stage={stage} setStage={setStage} phaseStatus={phaseStatus} />
+                <MatchingTab key={id} profile={profile} stage={stage} setStage={setStage} phaseStatus={phaseStatus} />
               )}
-              {mainTab === "Activity" && <ActivityTab extraEvents={activityLog} />}
+              {mainTab === "Activity" && <ActivityTab profile={profile} extraEvents={activityLog} />}
             </div>
 
             {mainTab === "Matching" && (
               <BottomActionBar
                 phaseState={phaseStatus[stage]}
+                stageComplete={profile.stageComplete[stage]}
+                approverName={profile.approverName}
+                approverTime={profile.approverTime}
                 onReject={openReject}
                 onOpenResetConfirm={openResetConfirm}
               />
@@ -382,21 +879,20 @@ function ConfirmModal({
   );
 }
 
-function PdfViewer({ active, declarationVariant }: { active: InfoTab; declarationVariant: DeclarationVariant }) {
+function PdfViewer({ profile, active, declarationVariant, selectedPoId, selectedContractId }: { profile: InvoiceProfile; active: InfoTab; declarationVariant: DeclarationVariant; selectedPoId: string; selectedContractId: string }) {
   const { t } = useI18n();
-  const pdfMap: Record<InfoTab, string | null> = {
-    "Invoice": "/pdfs/Invoice_Qinhuangdao Lihua.pdf",
-    "Purchase Order": "/pdfs/Purchase_Order_Qinhuangdao Lihua.pdf",
-    "Sales Contract": null,
-    "Bill of Lading": "/pdfs/Bill_of_Lading_Qinhuangdao Lihua.pdf",
-    "Customs Declaration": "/pdfs/Customs_Declaration_Qinhuangdao Lihua.pdf"
-  };
+  const pdfMap = profile.pdfMap;
   const originalDeclarationFileUrl = pdfMap["Customs Declaration"];
   const adjustedDeclarationFileUrl: string | null = null;
+
+  const currentPo = profile.purchaseOrders.find((p) => p.id === selectedPoId) ?? null;
+  const currentContract = profile.salesContracts.find((c) => c.id === selectedContractId) ?? null;
 
   const isCustomsDeclaration = active === "Customs Declaration";
   const pdfUrl = isCustomsDeclaration
     ? (declarationVariant === "Original" ? originalDeclarationFileUrl : adjustedDeclarationFileUrl)
+    : active === "Purchase Order" ? (currentPo?.fileUrl ?? null)
+    : active === "Sales Contract" ? (currentContract?.fileUrl ?? null)
     : pdfMap[active];
   const isEmptyAdjusted = isCustomsDeclaration && declarationVariant === "Adjusted" && !pdfUrl;
 
@@ -408,6 +904,7 @@ function PdfViewer({ active, declarationVariant }: { active: InfoTab; declaratio
           <span>
             {t(active)}
             {isCustomsDeclaration ? ` — ${t(declarationVariant === "Original" ? "Original Declaration" : "Adjusted Declaration")}` : ""}
+            {active === "Purchase Order" && currentPo ? ` — ${currentPo.label}` : ""}
             .pdf
           </span>
         </div>
@@ -431,6 +928,28 @@ function PdfViewer({ active, declarationVariant }: { active: InfoTab; declaratio
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+function SegmentedSelector({ options, activeId, onSelect }: {
+  options: { id: string; label: string }[]; activeId: string; onSelect: (id: string) => void;
+}) {
+  return (
+    <div className="inline-flex items-center rounded-md border border-border overflow-hidden">
+      {options.map((opt, i) => (
+        <Fragment key={opt.id}>
+          {i > 0 && <div className="w-px h-full bg-border" />}
+          <button
+            onClick={() => onSelect(opt.id)}
+            className={`px-3 h-7 text-[11.5px] font-medium ${
+              activeId === opt.id ? "bg-primary-light text-primary" : "bg-white text-text-secondary hover:bg-muted hover:text-text-primary"
+            }`}
+          >
+            {opt.label}
+          </button>
+        </Fragment>
+      ))}
     </div>
   );
 }
@@ -542,15 +1061,28 @@ function PreviewRow({ k, v }: { k: string; v: string }) {
 
 /* ============== Information Tab ============== */
 function InformationTab({
-  infoTab, setInfoTab, stage, docStatus, declarationVariant, setDeclarationVariant,
+  profile, infoTab, setInfoTab, stage, docStatus, declarationVariant, setDeclarationVariant,
+  selectedPoId, setSelectedPoId, selectedContractId, setSelectedContractId,
 }: {
+  profile: InvoiceProfile;
   infoTab: InfoTab; setInfoTab: (t: InfoTab) => void; stage: StageTab; docStatus: PhaseState;
   declarationVariant: DeclarationVariant; setDeclarationVariant: (v: DeclarationVariant) => void;
+  selectedPoId: string; setSelectedPoId: (id: string) => void;
+  selectedContractId: string; setSelectedContractId: (id: string) => void;
 }) {
   const { t } = useI18n();
   const infoTabs: InfoTab[] = ["Invoice", "Purchase Order", "Sales Contract", "Bill of Lading", "Customs Declaration"];
 
-  const [savedData, setSavedData] = useState<Record<EditableInfoTab, DocData>>(INITIAL_INFO_DATA);
+  const currentPo = profile.purchaseOrders.find((p) => p.id === selectedPoId) ?? null;
+  const currentContract = profile.salesContracts.find((c) => c.id === selectedContractId) ?? null;
+
+  const [savedData, setSavedData] = useState<Record<SingularInfoTab, DocData>>(profile.infoData);
+  const [poSavedData, setPoSavedData] = useState<Record<string, DocData>>(() =>
+    Object.fromEntries(profile.purchaseOrders.map((po) => [po.id, po.data]))
+  );
+  const [contractSavedData, setContractSavedData] = useState<Record<string, DocData>>(() =>
+    Object.fromEntries(profile.salesContracts.map((c) => [c.id, c.data]))
+  );
   const [editingTab, setEditingTab] = useState<EditableInfoTab | null>(null);
   const [draft, setDraft] = useState<DocData | null>(null);
 
@@ -559,20 +1091,35 @@ function InformationTab({
     setDraft(null);
   }, [infoTab]);
 
+  useEffect(() => {
+    setEditingTab(null);
+    setDraft(null);
+  }, [selectedPoId, selectedContractId]);
+
   const isEditable = infoTab !== "Customs Declaration";
   const isEditing = isEditable && editingTab === infoTab;
-  const docData = isEditable ? (isEditing ? draft : savedData[infoTab as EditableInfoTab]) : null;
+  const savedDocData =
+    infoTab === "Purchase Order" ? (currentPo ? poSavedData[currentPo.id] : undefined)
+    : infoTab === "Sales Contract" ? (currentContract ? contractSavedData[currentContract.id] : undefined)
+    : isEditable ? savedData[infoTab as SingularInfoTab]
+    : undefined;
+  const docData = isEditable ? (isEditing ? draft : (savedDocData ?? null)) : null;
 
   const handleEdit = () => {
-    if (!isEditable) return;
-    const tab = infoTab as EditableInfoTab;
-    setDraft(structuredClone(savedData[tab]));
-    setEditingTab(tab);
+    if (!isEditable || !savedDocData) return;
+    setDraft(structuredClone(savedDocData));
+    setEditingTab(infoTab as EditableInfoTab);
   };
 
   const handleSave = () => {
     if (!editingTab || !draft) return;
-    setSavedData((prev) => ({ ...prev, [editingTab]: draft }));
+    if (editingTab === "Purchase Order" && currentPo) {
+      setPoSavedData((prev) => ({ ...prev, [currentPo.id]: draft }));
+    } else if (editingTab === "Sales Contract" && currentContract) {
+      setContractSavedData((prev) => ({ ...prev, [currentContract.id]: draft }));
+    } else if (editingTab === "Invoice" || editingTab === "Bill of Lading") {
+      setSavedData((prev) => ({ ...prev, [editingTab]: draft }));
+    }
     setEditingTab(null);
     setDraft(null);
   };
@@ -626,7 +1173,7 @@ function InformationTab({
 
   const renderHeaderInformation = () => {
     if (infoTab === "Customs Declaration") {
-      return <FieldGrid fields={CUSTOMS_HEADER_FIELDS} />;
+      return <FieldGrid fields={profile.customsHeaderFields} />;
     }
 
     if (!docData) return null;
@@ -701,7 +1248,7 @@ function InformationTab({
               {data.items.length > 0 && (
                 <tr className="bg-[#fbfcfd]">
                   <td colSpan={colSpan} className="text-right font-semibold">{t("Total")}</td>
-                  <td className="text-right font-semibold tabular-nums">25,575.00 USD</td>
+                  <td className="text-right font-semibold tabular-nums">{sumItemAmounts(data.items)} USD</td>
                   {isEditing && <td />}
                 </tr>
               )}
@@ -802,25 +1349,30 @@ function InformationTab({
 
       <div className="p-4 space-y-4">
         {infoTab === "Customs Declaration" && (
-          <div className="inline-flex items-center rounded-md border border-border overflow-hidden">
-            <button
-              onClick={() => setDeclarationVariant("Original")}
-              className={`px-3 h-7 text-[11.5px] font-medium ${
-                declarationVariant === "Original" ? "bg-primary-light text-primary" : "bg-white text-text-secondary hover:bg-muted hover:text-text-primary"
-              }`}
-            >
-              {t("Original Declaration")}
-            </button>
-            <div className="w-px h-full bg-border" />
-            <button
-              onClick={() => setDeclarationVariant("Adjusted")}
-              className={`px-3 h-7 text-[11.5px] font-medium ${
-                declarationVariant === "Adjusted" ? "bg-primary-light text-primary" : "bg-white text-text-secondary hover:bg-muted hover:text-text-primary"
-              }`}
-            >
-              {t("Adjusted Declaration")}
-            </button>
-          </div>
+          <SegmentedSelector
+            options={[
+              { id: "Original", label: t("Original Declaration") },
+              { id: "Adjusted", label: t("Adjusted Declaration") },
+            ]}
+            activeId={declarationVariant}
+            onSelect={(id) => setDeclarationVariant(id as DeclarationVariant)}
+          />
+        )}
+
+        {infoTab === "Purchase Order" && profile.purchaseOrders.length > 0 && (
+          <SegmentedSelector
+            options={profile.purchaseOrders.map((po) => ({ id: po.id, label: po.label }))}
+            activeId={selectedPoId}
+            onSelect={setSelectedPoId}
+          />
+        )}
+
+        {infoTab === "Sales Contract" && profile.salesContracts.length > 0 && (
+          <SegmentedSelector
+            options={profile.salesContracts.map((c) => ({ id: c.id, label: c.label }))}
+            activeId={selectedContractId}
+            onSelect={setSelectedContractId}
+          />
         )}
 
         <Section
@@ -872,26 +1424,28 @@ function InformationTab({
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td className="font-mono text-[11.5px]">17023010</td>
-                    <td>DEXTROSE MONOHYDRATE</td>
-                    <td className="text-right tabular-nums">55,000</td>
-                    <td>KGM</td>
-                    <td className="text-right tabular-nums">0.465</td>
-                    <td className="text-right tabular-nums">25,575.00</td>
-                    <td className="text-right tabular-nums">668,274,750</td>
-                    <td className="text-right tabular-nums">0</td>
-                    <td className="text-right tabular-nums">0</td>
-                    <td className="text-right tabular-nums">8</td>
-                    <td className="text-right tabular-nums">53,461,980</td>
-                  </tr>
+                  {profile.customsItems.map((row, idx) => (
+                    <tr key={idx}>
+                      <td>{idx + 1}</td>
+                      <td className="font-mono text-[11.5px]">{row.hsCode}</td>
+                      <td>{row.description}</td>
+                      <td className="text-right tabular-nums">{row.qty}</td>
+                      <td>{row.uom}</td>
+                      <td className="text-right tabular-nums">{row.unitPrice}</td>
+                      <td className="text-right tabular-nums">{row.invoiceValue}</td>
+                      <td className="text-right tabular-nums">{row.taxableValueVnd}</td>
+                      <td className="text-right tabular-nums">{row.importTaxPct}</td>
+                      <td className="text-right tabular-nums">{row.importTaxVnd}</td>
+                      <td className="text-right tabular-nums">{row.vatPct}</td>
+                      <td className="text-right tabular-nums">{row.vatVnd}</td>
+                    </tr>
+                  ))}
                   <tr className="bg-[#fbfcfd]">
                     <td colSpan={6} className="text-right font-semibold">{t("Total")}</td>
-                    <td className="text-right font-semibold tabular-nums">25,575.00 USD</td>
-                    <td className="text-right font-semibold tabular-nums">668,274,750</td>
+                    <td className="text-right font-semibold tabular-nums">{sumFormatted(profile.customsItems.map((r) => r.invoiceValue), 2)} USD</td>
+                    <td className="text-right font-semibold tabular-nums">{sumFormatted(profile.customsItems.map((r) => r.taxableValueVnd), 0)}</td>
                     <td colSpan={2}></td>
-                    <td colSpan={2} className="text-right font-semibold tabular-nums">53,461,980</td>
+                    <td colSpan={2} className="text-right font-semibold tabular-nums">{sumFormatted(profile.customsItems.map((r) => r.vatVnd), 0)}</td>
                   </tr>
                 </tbody>
               </table>
@@ -990,48 +1544,18 @@ function CellInput({ value, onChange, align = "left" }: { value: string; onChang
 
 /* ============== Matching Tab ============== */
 type ItemResultFilter = "Matched" | "Mismatch" | "Unreconciled";
-type StageDoc = { label: string; docNo: string };
 
-const STAGE_DOCS: Record<StageTab, StageDoc[]> = {
-  "Stage 1": [
-    { label: "Purchase Order", docNo: SHIPMENT.poNo },
-    { label: "Sales Contract", docNo: SHIPMENT.contractNo },
-    { label: "Bill of Lading", docNo: SHIPMENT.blNo },
-  ],
-  "Stage 2": [
-    { label: "Purchase Order", docNo: SHIPMENT.poNo },
-    { label: "Sales Contract", docNo: SHIPMENT.contractNo },
-    { label: "Bill of Lading", docNo: SHIPMENT.blNo },
-    { label: "Customs Declaration", docNo: SHIPMENT.customsNo },
-  ],
-  "Stage 3": [
-    { label: "Purchase Order", docNo: SHIPMENT.poNo },
-    { label: "Sales Contract", docNo: SHIPMENT.contractNo },
-    { label: "Bill of Lading", docNo: SHIPMENT.blNo },
-    { label: "Customs Declaration", docNo: SHIPMENT.customsNo },
-    { label: "Goods Receipt", docNo: SHIPMENT.grNo },
-  ],
-};
-
-const STAGE_RESULT_BANNERS: Record<StageTab, string[]> = {
-  "Stage 1": ["Matching Stage 1 completed — Invoice ↔ PO ↔ Contract ↔ BL reconciled. 100% matched."],
-  "Stage 2": ["Matching Stage 2 completed — Customs Declaration added. All header + item lines matched."],
-  "Stage 3": [
-    "Matching Stage 3 completed — 5-Way match closed with zero variance.",
-    "Tran Van Minh confirmed at 08:25 on 30-Apr-2026",
-  ],
-};
-
-function MatchingTab({ stage, setStage, phaseStatus }: { stage: StageTab; setStage: (s: StageTab) => void; phaseStatus: Record<StageTab, PhaseState> }) {
+function MatchingTab({ profile, stage, setStage, phaseStatus }: { profile: InvoiceProfile; stage: StageTab; setStage: (s: StageTab) => void; phaseStatus: Record<StageTab, PhaseState> }) {
   const { t } = useI18n();
   const stageMeta: Record<StageTab, { label: string; desc: string; complete: boolean }> = {
-    "Stage 1": { label: "Stage 1", desc: "Before GR (no Customs)", complete: true },
-    "Stage 2": { label: "Stage 2", desc: "Before GR (with Customs)", complete: true },
-    "Stage 3": { label: "Stage 3", desc: "After Goods Receipt", complete: true },
+    "Stage 1": { label: "Stage 1", desc: "Before GR (no Customs)", complete: profile.stageComplete["Stage 1"] },
+    "Stage 2": { label: "Stage 2", desc: "Before GR (with Customs)", complete: profile.stageComplete["Stage 2"] },
+    "Stage 3": { label: "Stage 3", desc: "After Goods Receipt", complete: profile.stageComplete["Stage 3"] },
   };
 
-  const stageDocs = STAGE_DOCS[stage];
-  const stageBanners = STAGE_RESULT_BANNERS[stage];
+  const stageDocs = profile.stageDocs[stage];
+  const stageBanners = profile.stageBanners[stage];
+  const stageNotStarted = stageBanners.length === 0;
 
   const groupedDocs: { label: string; docNos: string }[] = [];
   for (const d of stageDocs) {
@@ -1072,19 +1596,20 @@ function MatchingTab({ stage, setStage, phaseStatus }: { stage: StageTab; setSta
         {(Object.keys(stageMeta) as StageTab[]).map((s, i) => {
           const m = stageMeta[s];
           const isActive = stage === s;
+          const notStarted = profile.stageBanners[s].length === 0;
           return (
             <button
               key={s}
               onClick={() => setStage(s)}
               className={`flex-1 min-w-0 text-left px-4 pt-3 pb-3 ${i > 0 ? "border-l border-border" : ""} ${
-                isActive ? "bg-primary-light" : "bg-white hover:bg-muted"
+                notStarted ? "bg-white opacity-60" : isActive ? "bg-primary-light" : "bg-white hover:bg-muted"
               }`}
             >
               <div className="relative h-3 mb-2">
-                <div className={`absolute inset-x-0 top-1/2 -translate-y-1/2 h-[1.5px] rounded-full ${isActive ? "bg-primary" : "bg-border"}`} />
-                <div className={`absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full ${isActive ? "bg-primary" : "bg-border"}`} />
+                <div className={`absolute inset-x-0 top-1/2 -translate-y-1/2 h-[1.5px] rounded-full ${!notStarted && isActive ? "bg-primary" : "bg-border"}`} />
+                <div className={`absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full ${!notStarted && isActive ? "bg-primary" : "bg-border"}`} />
               </div>
-              <div className={`text-[13px] font-medium inline-flex items-center gap-1.5 ${isActive ? "text-primary" : "text-text-primary"}`}>
+              <div className={`text-[13px] font-medium inline-flex items-center gap-1.5 ${notStarted ? "text-text-secondary" : isActive ? "text-primary" : "text-text-primary"}`}>
                 {t(m.label)}
                 {phaseStatus[s].status === "Rejected" ? (
                   <XCircle className="h-3.5 w-3.5 text-error" />
@@ -1099,6 +1624,14 @@ function MatchingTab({ stage, setStage, phaseStatus }: { stage: StageTab; setSta
       </div>
 
       <div className="p-4 space-y-4">
+      {stageNotStarted ? (
+        <div className="border border-border rounded-md bg-white flex flex-col items-center justify-center py-16 text-text-secondary">
+          <Inbox className="h-8 w-8 mb-2 opacity-50" />
+          <div className="text-[13px] font-medium">{t("No data yet")}</div>
+          <div className="text-[11.5px] mt-1">{t("This stage has not started.")}</div>
+        </div>
+      ) : (
+      <>
         {/* Reconciled Documents + Reconciliation Result, side by side */}
         <div className="grid grid-cols-2 gap-4">
           <div className="border border-border rounded-md overflow-hidden">
@@ -1123,10 +1656,17 @@ function MatchingTab({ stage, setStage, phaseStatus }: { stage: StageTab; setSta
           <div className="border border-border rounded-md p-3">
             <div className="text-[11px] font-semibold text-text-secondary uppercase tracking-wide mb-2">{t("Reconciliation Result")}</div>
             <div className="space-y-1.5">
-              {stageBanners.map((text) => (
-                <div key={text} className="flex items-center gap-2 bg-success-bg text-success rounded px-2 py-1.5 text-[11.5px]">
-                  <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
-                  <span>{t(text)}</span>
+              {stageBanners.map((b) => (
+                <div
+                  key={b.text}
+                  className={`flex items-center gap-2 rounded px-2 py-1.5 text-[11.5px] ${
+                    b.tone === "success" ? "bg-success-bg text-success"
+                      : b.tone === "pending" ? "bg-warning-bg text-warning"
+                      : "bg-muted text-text-secondary"
+                  }`}
+                >
+                  {b.tone === "success" ? <CheckCircle2 className="h-3.5 w-3.5 shrink-0" /> : <Clock className="h-3.5 w-3.5 shrink-0" />}
+                  <span>{t(b.text)}</span>
                 </div>
               ))}
             </div>
@@ -1137,7 +1677,7 @@ function MatchingTab({ stage, setStage, phaseStatus }: { stage: StageTab; setSta
         <div>
           <div className="flex items-center justify-between mb-2">
             <div className="text-[12px] font-semibold text-text-primary">{t("Header Matching")}</div>
-            <div className="text-[11px] text-text-secondary">{t("11 criteria checked")}</div>
+            <div className="text-[11px] text-text-secondary">{t("{n} criteria checked", { n: String(profile.headerMatchRows.length) })}</div>
           </div>
           <div className="border border-border rounded-md overflow-hidden">
             <table className="ent-table">
@@ -1155,19 +1695,7 @@ function MatchingTab({ stage, setStage, phaseStatus }: { stage: StageTab; setSta
                 </tr>
               </thead>
               <tbody>
-                {[
-                  ["Vendor", "Lihua Starch", "Lihua Starch", "Lihua Starch", "Lihua Starch", "Lihua Starch", "Lihua Starch"],
-                  ["Buyer / Consignee", "Asia Chemical", "Asia Chemical", "Asia Chemical", "Asia Chemical", "Asia Chemical", "Asia Chemical"],
-                  ["PO Number", SHIPMENT.poNo, SHIPMENT.poNo, "—", "—", "—", SHIPMENT.poNo],
-                  ["Contract Number", SHIPMENT.contractNo, SHIPMENT.contractNo, SHIPMENT.contractNo, "—", "—", "—"],
-                  ["Currency", "USD", "USD", "USD", "—", "USD", "USD"],
-                  ["Incoterm", "CIF Hai Phong", "CIF Hai Phong", "CIF Hai Phong", "—", "CIF", "—"],
-                  ["Payment Term", "TT 30D BL", "TT 30D BL", "TT 30D BL", "—", "—", "—"],
-                  ["Bank", "BOC Qinhuangdao", "BOC Qinhuangdao", "—", "—", "—", "—"],
-                  ["Shipment / Vessel", "HE SHENG 2606S", "—", "—", "HE SHENG 2606S", "HE SHENG 2606S", "—"],
-                  ["Container", "2 x 40HC", "—", "—", "2 x 40HC", "2 x 40HC", "—"],
-                  ["Invoice Amount", "25,575.00 USD", "25,575.00 USD", "25,575.00 USD", "—", "25,575.00 USD", "—"],
-                ].map((r) => (
+                {profile.headerMatchRows.map((r) => (
                   <tr key={r[0]}>
                     <td className="font-medium">{t(r[0])}</td>
                     <td>{r[1]}</td>
@@ -1198,7 +1726,10 @@ function MatchingTab({ stage, setStage, phaseStatus }: { stage: StageTab; setSta
             {/* Filter row */}
             <div className="flex items-center justify-between px-3 h-10 border-b border-border text-[12px]">
               <div className="text-text-secondary">
-                {t("Invoice Date")}: <span className="text-text-primary font-medium">{SHIPMENT.invoiceDate}</span>
+                {t("Invoice Date")}: <span className="text-text-primary font-medium">{(() => {
+                  const iso = profile.infoData["Invoice"].header.find((f) => f.key === "Invoice Date")?.value;
+                  return iso ? isoToDisplayDate(iso) : "—";
+                })()}</span>
               </div>
               <div className="flex items-center gap-3">
                 <span className="text-text-secondary">{t("Filter by status:")}</span>
@@ -1237,60 +1768,60 @@ function MatchingTab({ stage, setStage, phaseStatus }: { stage: StageTab; setSta
                 </tr>
               </thead>
               <tbody>
-                {itemLineVisible && (
-                  <>
-                    <tr className="bg-success-bg/40 cursor-pointer hover:bg-success-bg/60" onClick={() => toggleRow(1)}>
+                {itemLineVisible && profile.itemMatchLines.map((line) => (
+                  <Fragment key={line.id}>
+                    <tr className="bg-success-bg/40 cursor-pointer hover:bg-success-bg/60" onClick={() => toggleRow(line.id)}>
                       <td>
                         <span className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-primary text-primary">
-                          <ChevronDown className={`h-2.5 w-2.5 transition-transform ${expandedRows.has(1) ? "" : "-rotate-90"}`} />
+                          <ChevronDown className={`h-2.5 w-2.5 transition-transform ${expandedRows.has(line.id) ? "" : "-rotate-90"}`} />
                         </span>
                       </td>
-                      <td>1</td>
-                      <td className="font-mono text-[11.5px] text-text-secondary">DEX-FG-001</td>
-                      <td className="font-medium">{SHIPMENT.product}</td>
-                      <td>MTS</td>
-                      <td className="text-right tabular-nums">55,000</td>
-                      <td className="text-right tabular-nums">465.00</td>
-                      <td className="text-right tabular-nums font-medium">{SHIPMENT.amount}</td>
+                      <td>{line.id}</td>
+                      <td className="font-mono text-[11.5px] text-text-secondary">{line.itemCode}</td>
+                      <td className="font-medium">{line.productName}</td>
+                      <td>{line.uom}</td>
+                      <td className="text-right tabular-nums">{line.qty}</td>
+                      <td className="text-right tabular-nums">{line.unitPrice}</td>
+                      <td className="text-right tabular-nums font-medium">{line.lineAmount}</td>
                       <td><StatusBadge status="Matched" /></td>
                       <td className="text-text-secondary">—</td>
                     </tr>
-                    {expandedRows.has(1) && stageDocs.map((d) => (
+                    {expandedRows.has(line.id) && line.matchedDocs[stage].map((d) => (
                       <Fragment key={d.label}>
                         <tr className="bg-muted/60">
                           <td></td>
                           <td></td>
                           <td colSpan={2} className="font-medium text-text-primary">{t(d.label)} {t("No")} {d.docNo}</td>
                           <td></td>
-                          <td className="text-right tabular-nums text-text-secondary">55,000</td>
-                          <td className="text-right tabular-nums text-text-secondary">465.00</td>
-                          <td className="text-right tabular-nums font-medium">{SHIPMENT.amount}</td>
+                          <td className="text-right tabular-nums text-text-secondary">{d.qty}</td>
+                          <td className="text-right tabular-nums text-text-secondary">{d.unitPrice}</td>
+                          <td className="text-right tabular-nums font-medium">{d.lineAmount}</td>
                           <td></td>
                           <td></td>
                         </tr>
                         <tr className="bg-primary-light/30 text-text-secondary">
                           <td></td>
-                          <td>1</td>
-                          <td className="font-mono text-[11px] pl-4">DEX-FG-001</td>
-                          <td className="pl-4">{SHIPMENT.product}</td>
-                          <td>MTS</td>
-                          <td className="text-right tabular-nums">55,000</td>
-                          <td className="text-right tabular-nums">465.00</td>
-                          <td className="text-right tabular-nums">{SHIPMENT.amount}</td>
+                          <td>{line.id}</td>
+                          <td className="font-mono text-[11px] pl-4">{line.itemCode}</td>
+                          <td className="pl-4">{line.productName}</td>
+                          <td>{line.uom}</td>
+                          <td className="text-right tabular-nums">{d.qty}</td>
+                          <td className="text-right tabular-nums">{d.unitPrice}</td>
+                          <td className="text-right tabular-nums">{d.lineAmount}</td>
                           <td></td>
                           <td></td>
                         </tr>
                       </Fragment>
                     ))}
-                  </>
-                )}
+                  </Fragment>
+                ))}
               </tbody>
               <tfoot>
                 <tr className="bg-[#fbfcfd]">
                   <td colSpan={5} className="text-right font-semibold">{t("Total")}</td>
-                  <td className="text-right font-semibold tabular-nums">{itemLineVisible ? "55,000" : "0"}</td>
+                  <td className="text-right font-semibold tabular-nums">{itemLineVisible ? sumFormatted(profile.itemMatchLines.map((l) => l.qty), 0) : "0"}</td>
                   <td></td>
-                  <td className="text-right font-semibold tabular-nums">{itemLineVisible ? `${SHIPMENT.amount} USD` : "0.00 USD"}</td>
+                  <td className="text-right font-semibold tabular-nums">{itemLineVisible ? `${sumFormatted(profile.itemMatchLines.map((l) => l.lineAmount), 2)} USD` : "0.00 USD"}</td>
                   <td colSpan={2}></td>
                 </tr>
               </tfoot>
@@ -1298,7 +1829,7 @@ function MatchingTab({ stage, setStage, phaseStatus }: { stage: StageTab; setSta
 
             {/* Pagination */}
             <div className="flex items-center justify-between px-3 h-10 border-t border-border text-[12px] text-text-secondary">
-              <div>{t("Showing")} {itemLineVisible ? 1 : 0}–{itemLineVisible ? 1 : 0} {t("of")} {itemLineVisible ? 1 : 0} {t("results")}</div>
+              <div>{t("Showing")} {itemLineVisible ? 1 : 0}–{itemLineVisible ? profile.itemMatchLines.length : 0} {t("of")} {itemLineVisible ? profile.itemMatchLines.length : 0} {t("results")}</div>
               <div className="flex items-center gap-1">
                 <button className="h-6 w-6 inline-flex items-center justify-center border border-border bg-white rounded-md hover:bg-muted">
                   <ChevronLeft className="h-3.5 w-3.5" />
@@ -1323,14 +1854,16 @@ function MatchingTab({ stage, setStage, phaseStatus }: { stage: StageTab; setSta
           <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-error" /> {t("Mismatch")}</span>
           <span className="ml-auto">{t("Rule set:")} <span className="text-text-primary font-medium">IMPORT-5W-STANDARD v2.4</span></span>
         </div>
+      </>
+      )}
       </div>
     </div>
   );
 }
 
 function BottomActionBar({
-  phaseState, onReject, onOpenResetConfirm,
-}: { phaseState: PhaseState; onReject: () => void; onOpenResetConfirm: () => void }) {
+  phaseState, stageComplete, approverName, approverTime, onReject, onOpenResetConfirm,
+}: { phaseState: PhaseState; stageComplete: boolean; approverName: string; approverTime: string; onReject: () => void; onOpenResetConfirm: () => void }) {
   const { t } = useI18n();
   const isRejected = phaseState.status === "Rejected";
   return (
@@ -1341,8 +1874,10 @@ function BottomActionBar({
             {t("This stage has been rejected")}
             {phaseState.reason ? ` · ${t("Reason")}: ${phaseState.reason}` : ""}
           </span>
+        ) : stageComplete ? (
+          <>{t("Ready for Finance approval · Merchandise confirmed by")} <span className="text-text-primary font-medium">{approverName}</span> {t("at")} {approverTime}</>
         ) : (
-          <>{t("Ready for Finance approval · Merchandise confirmed by")} <span className="text-text-primary font-medium">Tran Van Minh</span> {t("at")} 08:25</>
+          <span>{t("Reconciliation in progress — not yet ready for Finance approval.")}</span>
         )}
       </div>
       <div className="flex items-center gap-2 shrink-0">
@@ -1375,30 +1910,15 @@ function BottomActionBar({
 }
 
 /* ============== Activity Tab ============== */
-function ActivityTab({ extraEvents }: { extraEvents: ActivityEvent[] }) {
+function ActivityTab({ profile, extraEvents }: { profile: InvoiceProfile; extraEvents: ActivityEvent[] }) {
   const { t } = useI18n();
-  const baseEvents = [
-    { t: "08:10", icon: Webhook, title: "Webhook received", who: "System · Impex Portal", desc: "Inbound shipment notification LH261730 received via webhook." },
-    { t: "08:11", icon: FileDown, title: "Commercial Invoice synchronized", who: "System", desc: "Invoice document downloaded from vendor portal." },
-    { t: "08:11", icon: FileDown, title: "Sales Contract synchronized", who: "System", desc: "Contract 26030025 attached to invoice." },
-    { t: "08:12", icon: FileDown, title: "Bill of Lading synchronized", who: "System · Freight Forwarder", desc: "BL JTHPH26S03802 received." },
-    { t: "08:12", icon: FileDown, title: "Customs Declaration synchronized", who: "System · VNACCS", desc: "Customs declaration 105678923420 linked." },
-    { t: "08:15", icon: ScanText, title: "OCR completed", who: "System · OCR Engine v3.1", desc: "Structured extraction on 5 documents · 214 fields captured." },
-    { t: "08:18", icon: GitCompareArrows, title: "Matching Stage 1 completed", who: "System", desc: "Invoice ↔ PO ↔ Contract ↔ BL reconciled. 100% matched." },
-    { t: "08:20", icon: Landmark, title: "Matching Stage 2 completed", who: "System", desc: "Customs Declaration added. All header + item lines matched." },
-    { t: "08:23", icon: PackageCheck, title: "Goods Receipt synchronized", who: "System · SAP MM", desc: "GR 5000335133 posted for 55,000 KG." },
-    { t: "08:24", icon: GitCompareArrows, title: "Matching Stage 3 completed", who: "System", desc: "5-Way match closed with zero variance." },
-    { t: "08:25", icon: UserCheck, title: "Merchandise confirmed", who: "Tran Van Minh · Merchandise", desc: "Quantities and quality verified against GR." },
-    { t: "08:28", icon: ShieldCheck, title: "Finance approved", who: "Nguyen Thi Lan · Finance Manager", desc: "Approved for ERP posting. Payment scheduled 14-May-2026." },
-    { t: "08:29", icon: Server, title: "ERP posting completed", who: "System · SAP FI", desc: "Document 5105003321 posted to company code 1000." },
-  ];
-  const events = [...baseEvents, ...extraEvents];
+  const events = [...profile.activityEvents, ...extraEvents];
   return (
     <div className="p-4">
       <div className="flex items-center justify-between mb-3">
         <div>
           <div className="text-[13px] font-semibold text-text-primary">{t("Activity Timeline")}</div>
-          <div className="text-[11.5px] text-text-secondary">{t("30-Apr-2026 · 13 events").replace("13", String(events.length))}</div>
+          <div className="text-[11.5px] text-text-secondary">{t(profile.activityHeaderLabel, { n: String(events.length) })}</div>
         </div>
         <div className="flex items-center gap-2">
           <select className="h-7 border border-border rounded bg-white text-[11.5px] px-2">
@@ -1417,7 +1937,7 @@ function ActivityTab({ extraEvents }: { extraEvents: ActivityEvent[] }) {
           const isUser = e.who.startsWith("Tran") || e.who.startsWith("Nguyen");
           return (
             <div key={i} className={`grid grid-cols-[70px_28px_1fr_140px] gap-3 px-3 py-2.5 ${i !== events.length - 1 ? "border-b border-border" : ""} hover:bg-[#fbfcfd]`}>
-              <div className="text-[11.5px] text-text-secondary tabular-nums pt-0.5">30-Apr {e.t}</div>
+              <div className="text-[11.5px] text-text-secondary tabular-nums pt-0.5">{e.date} {e.t}</div>
               <div className={`h-6 w-6 rounded-full flex items-center justify-center ${isUser ? "bg-primary-light text-primary" : "bg-muted text-text-secondary"}`}>
                 <Icon className="h-3.5 w-3.5" />
               </div>

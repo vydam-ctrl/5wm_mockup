@@ -48,7 +48,7 @@ const VI_DICT: Record<string, string> = {
   "Dashboard": "Tổng quan",
   "Invoice Management": "Quản lý hóa đơn",
   "Purchase Orders": "Đơn đặt hàng",
-  "Sales Contracts": "Hợp đồng bán hàng",
+  "Sales Contracts": "Hợp đồng mua bán",
   "Bill of Lading": "Vận đơn",
   "Customs Declaration": "Tờ khai hải quan",
   "Goods Receipt": "Phiếu nhập kho",
@@ -99,6 +99,7 @@ const VI_DICT: Record<string, string> = {
   "Invoice Number": "Số hóa đơn",
   "PO Number": "Số đơn đặt hàng",
   "Contract Number": "Số hợp đồng",
+  "Order Number": "Số đơn hàng",
   "Bill of Lading No.": "Số vận đơn",
   "Customs Declaration No.": "Số tờ khai hải quan",
   "Goods Receipt No.": "Số phiếu nhập kho",
@@ -155,7 +156,7 @@ const VI_DICT: Record<string, string> = {
   "Matching": "Đối chiếu",
   "Activity": "Hoạt động",
   "Purchase Order": "Đơn đặt hàng",
-  "Sales Contract": "Hợp đồng bán hàng",
+  "Sales Contract": "Hợp đồng mua bán",
 
   // ---- PdfViewer ----
   "Original document not available": "Tài liệu không có sẵn",
@@ -261,15 +262,21 @@ const VI_DICT: Record<string, string> = {
   "Before GR (with Customs)": "Trước khi nhập kho (đã có tờ khai HQ)",
   "After Goods Receipt": "Sau khi nhập kho",
   "Reconciliation Result": "Kết quả đối chiếu",
+  "No data yet": "Chưa có dữ liệu",
+  "This stage has not started.": "Giai đoạn này chưa bắt đầu.",
   "Matching Stage 1 completed — Invoice ↔ PO ↔ Contract ↔ BL reconciled. 100% matched.":
     "Hoàn tất đối chiếu Giai đoạn 1 — Hóa đơn ↔ PO ↔ Hợp đồng ↔ Vận đơn đã khớp. Khớp 100%.",
   "Matching Stage 2 completed — Customs Declaration added. All header + item lines matched.":
     "Hoàn tất đối chiếu Giai đoạn 2 — Đã bổ sung Tờ khai hải quan. Toàn bộ thông tin chung và chi tiết hàng hóa đã khớp.",
   "Matching Stage 3 completed — 5-Way match closed with zero variance.":
     "Hoàn tất đối chiếu Giai đoạn 3 — Đối chiếu 5 chiều hoàn tất, không có sai lệch.",
+  "Matching Stage 1 completed — Invoice ↔ PO ↔ BL reconciled. 100% matched.":
+    "Hoàn tất đối chiếu Giai đoạn 1 — Hóa đơn ↔ PO ↔ Vận đơn đã khớp. Khớp 100%.",
   "Tran Van Minh confirmed at 08:25 on 30-Apr-2026": "Tran Van Minh đã xác nhận lúc 08:25 ngày 30-04-2026",
+  "Tran Van Minh confirmed at 10:25 on 03-May-2026": "Tran Van Minh đã xác nhận lúc 10:25 ngày 03-05-2026",
+  "Tran Van Lai confirmed at 08:56 on 05-Feb-2026": "Tran Van Lai đã xác nhận lúc 08:56 ngày 05-02-2026",
   "Header Matching": "Đối chiếu thông tin chung",
-  "11 criteria checked": "Đã kiểm tra 11 tiêu chí",
+  "{n} criteria checked": "Đã kiểm tra {n} tiêu chí",
   "Criteria": "Tiêu chí",
   "Invoice": "Hóa đơn",
   "Contract": "Hợp đồng",
@@ -294,6 +301,7 @@ const VI_DICT: Record<string, string> = {
 
   // ---- Bottom action bar ----
   "Ready for Finance approval · Merchandise confirmed by": "Sẵn sàng để Kế toán phê duyệt · Đã được xác nhận hàng hóa bởi",
+  "Reconciliation in progress — not yet ready for Finance approval.": "Đang đối chiếu — chưa sẵn sàng để Kế toán phê duyệt.",
   "at": "lúc",
   "Rematch": "Đối chiếu lại",
   "Export Report": "Xuất báo cáo",
@@ -303,14 +311,15 @@ const VI_DICT: Record<string, string> = {
 
   // ---- Activity tab ----
   "Activity Timeline": "Nhật ký hoạt động",
-  "30-Apr-2026 · 13 events": "30-04-2026 · 13 sự kiện",
+  "30-Apr-2026 · {n} events": "30-04-2026 · {n} sự kiện",
+  "{n} events": "{n} sự kiện",
   "All events": "Tất cả sự kiện",
   "System": "Hệ thống",
   "User": "Người dùng",
   "Export": "Xuất",
   "Webhook received": "Đã nhận Webhook",
   "Commercial Invoice synchronized": "Đã đồng bộ Hóa đơn thương mại",
-  "Sales Contract synchronized": "Đã đồng bộ Hợp đồng bán hàng",
+  "Sales Contract synchronized": "Đã đồng bộ Hợp đồng mua bán",
   "Bill of Lading synchronized": "Đã đồng bộ Vận đơn",
   "Customs Declaration synchronized": "Đã đồng bộ Tờ khai hải quan",
   "OCR completed": "Hoàn tất OCR",
@@ -334,6 +343,17 @@ const VI_DICT: Record<string, string> = {
   "Quantities and quality verified against GR.": "Đã kiểm tra số lượng và chất lượng theo phiếu nhập kho.",
   "Approved for ERP posting. Payment scheduled 14-May-2026.": "Đã phê duyệt để hạch toán ERP. Lịch thanh toán ngày 14-05-2026.",
   "Document 5105003321 posted to company code 1000.": "Đã hạch toán chứng từ 5105003321 vào mã công ty 1000.",
+  "Purchase Order synchronized": "Đã đồng bộ Đơn đặt hàng",
+  "Matching Stage 2 in progress": "Đang đối chiếu Giai đoạn 2",
+  "PO 26010550 (Vegetable Powder P007) received from vendor portal.": "Đã nhận PO 26010550 (Bột rau củ P007) từ cổng thông tin nhà cung cấp.",
+  "PO 26010785 (Soy Sauce Powder A6016) received from vendor portal.": "Đã nhận PO 26010785 (Bột nước tương A6016) từ cổng thông tin nhà cung cấp.",
+  "PO 26020191 (Meat Seasoning A6391) received from vendor portal.": "Đã nhận PO 26020191 (Gia vị thịt A6391) từ cổng thông tin nhà cung cấp.",
+  "Invoice A03680 downloaded from vendor portal.": "Đã tải hóa đơn A03680 từ cổng thông tin nhà cung cấp.",
+  "BL YOKDKK23592 received.": "Đã nhận vận đơn YOKDKK23592.",
+  "Structured extraction on 5 documents · fields captured.": "Trích xuất dữ liệu có cấu trúc từ 5 chứng từ.",
+  "Invoice ↔ PO ↔ BL reconciled. 100% matched.": "Đã đối chiếu Hóa đơn ↔ PO ↔ Vận đơn. Khớp 100%.",
+  "Customs declaration 108114267810 linked.": "Đã liên kết tờ khai hải quan 108114267810.",
+  "Customs Declaration added, pending Finance approval.": "Đã bổ sung Tờ khai hải quan, đang chờ Kế toán phê duyệt.",
 
   // ---- Reject invoice flow ----
   "Not Approved": "Không duyệt",
