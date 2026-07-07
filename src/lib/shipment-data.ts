@@ -79,4 +79,13 @@ export const INVOICES: InvoiceRow[] = [
     approvalDate: "—", reference: "IMP-2026-Q1-0089",
     stage: "Stage 2", status: "Pending Approval", amount: "24,322.00", currency: "USD",
   },
+  {
+    invoiceNo: "9910148696", poNo: "26020253, 26010762, 26010579, 26010578, 26010468, 26010318, 26010089", contractNo: "—",
+    blNo: "SE2603021", customsNo: "108113574700", grNo: "—",
+    invoiceDate: "18-Mar-2026", blDate: "26-Mar-2026", grDate: "—",
+    receivedDate: "06-Apr-2026", processedDate: "06-Apr-2026 10:05",
+    vendor: "Symrise Asia Pacific Pte Ltd", approver: "—",
+    approvalDate: "—", reference: "IMP-2026-Q1-0142",
+    stage: "Stage 2", status: "Pending Approval", amount: "351,241.20", currency: "USD",
+  },
 ];
