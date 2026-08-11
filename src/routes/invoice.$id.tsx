@@ -88,7 +88,7 @@ function isoToDisplayDate(iso: string): string {
 }
 
 const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
-  // ---- Qinhuangdao Lihua Starch (LH261730) — moved in verbatim from the original module-level constants ----
+  // ---- XYZ Lihua Starch (LH261730) — moved in verbatim from the original module-level constants ----
   LH261730: {
     stage: "Stage 3",
     infoData: {
@@ -97,8 +97,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           { key: "Invoice Number", value: "LH261730" },
           { key: "Invoice Date", value: "2026-04-05" },
           { key: "Order Number", value: "26030025" },
-          { key: "Vendor Name", value: "QINHUANGDAO LIHUA STARCH CO., LTD." },
-          { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
+          { key: "Vendor Name", value: "XYZ CO., LTD." },
+          { key: "Buyer Name", value: "ABC Corporation" },
           { key: "Currency", value: "USD" },
           { key: "Incoterms", value: "CIF" },
           { key: "Delivery Place", value: "HAIPHONG, VIETNAM" },
@@ -111,8 +111,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           { key: "Shipment Route", value: "JINGTANG PORT, CHINA -> HAIPHONG, VIETNAM", wide: true },
         ],
         bank: [
-          { key: "Beneficiary Name", value: "QINHUANGDAO LIHUA STARCH CO., LTD.", wide: true },
-          { key: "Bank Name", value: "INDUSTRIAL AND COMMERCIAL BANK OF CHINA - QINHUANGDAO BRANCH FUNING SUB-BRANCH", wide: true },
+          { key: "Beneficiary Name", value: "XYZ CO., LTD.", wide: true },
+          { key: "Bank Name", value: "INDUSTRIAL AND COMMERCIAL BANK OF CHINA - XYZ BRANCH FUNING SUB-BRANCH", wide: true },
           { key: "SWIFT/BIC", value: "ICBKCNBJQHD" },
           { key: "Bank Account", value: "0404012009300047288" },
         ],
@@ -124,9 +124,9 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
         header: [
           { key: "B/L Number", value: "JTHPH26S03802", mono: true },
           { key: "Transport Mode", value: "SEA" },
-          { key: "Shipper Name", value: "QINHUANGDAO LIHUA STARCH CO., LTD." },
-          { key: "Shipper Address", value: "No.89, Lihua Street, Funing District, Qinhuangdao City, Hebei Province, China", wide: true },
-          { key: "Consignee Name", value: "ASIA CHEMICAL CORPORATION" },
+          { key: "Shipper Name", value: "XYZ CO., LTD." },
+          { key: "Shipper Address", value: "No.89, Lihua Street, Funing District, XYZ City, Hebei Province, China", wide: true },
+          { key: "Consignee Name", value: "ABC Corporation" },
           { key: "Consignee Address", value: "Lot K4B, Le Minh Xuan Industrial Zone, Road No.4, Binh Loi Commune, Ho Chi Minh City, Vietnam", wide: true },
           { key: "Notify Party", value: "SAME AS CONSIGNEE" },
           { key: "Vessel / Voyage", value: "LIANG XIANG 82 / 2606S" },
@@ -157,9 +157,9 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           header: [
             { key: "PO Number", value: "26030025" },
             { key: "PO Date", value: "2026-03-02" },
-            { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
-            { key: "Buyer Tax Code", value: "0304918352" },
-            { key: "Seller Name", value: "Qinhuangdao Lihua Starch Co., Ltd." },
+            { key: "Buyer Name", value: "ABC Corporation" },
+            { key: "Buyer Tax Code", value: "0123456789" },
+            { key: "Seller Name", value: "XYZ CO., LTD." },
             { key: "Seller Code", value: "30100108" },
             { key: "Currency", value: "USD" },
             { key: "Incoterm", value: "CIF" },
@@ -172,7 +172,7 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
             { key: "Total Amount", value: "25,575.00" },
           ],
           bank: [
-            { key: "Beneficiary Name", value: "QINHUANGDAO LIHUA STARCH CO., LTD.", wide: true },
+            { key: "Beneficiary Name", value: "XYZ CO., LTD.", wide: true },
             { key: "Bank Name", value: "Industrial And Commercial Bank of China - Qingdao Branch, Funing Sub-Branch", wide: true },
             { key: "SWIFT/BIC", value: "ICBKCNBJQHD" },
             { key: "Bank Account", value: "0404012009300047288" },
@@ -188,9 +188,9 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
       { key: "Declaration Number", value: "108189893450", mono: true },
       { key: "Type Code", value: "A11" },
       { key: "Registration Date", value: "2026-04-28 10:11:38" },
-      { key: "Importer Name", value: "ASIA CHEMICAL CORPORATION", wide: true },
-      { key: "Importer Tax Code", value: "0304918352" },
-      { key: "Exporter Name", value: "QINHUANGDAO LIHUA STARCH CO., LTD.", wide: true },
+      { key: "Importer Name", value: "ABC Corporation", wide: true },
+      { key: "Importer Tax Code", value: "0123456789" },
+      { key: "Exporter Name", value: "XYZ CO., LTD.", wide: true },
       { key: "Exporter Country", value: "CN" },
       { key: "B/L Number", value: "JTHPH26S03802" },
       { key: "Invoice Number", value: "LH261730" },
@@ -202,7 +202,7 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
       { key: "Gross Weight", value: "55,220 KGM" },
       { key: "Cargo Arrival Date", value: "2026-04-25" },
       { key: "Exchange Rate", value: "26,130" },
-      { key: "Transport Means", value: "HE SHENG 2606S" },
+      { key: "Transport Means", value: "Vessel 2606S" },
       { key: "Loading Location", value: "JINGTANG" },
       { key: "Unloading Location", value: "DINH VU NAM HAI" },
       { key: "Taxable Value Total", value: "668,274,750 VND" },
@@ -249,13 +249,13 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
     stageComplete: { "Stage 1": true, "Stage 2": true, "Stage 3": true },
     headerMatchRows: [
       ["Vendor", "Lihua Starch", "Lihua Starch", "Lihua Starch", "Lihua Starch", "Lihua Starch", "Lihua Starch"],
-      ["Buyer / Consignee", "Asia Chemical", "Asia Chemical", "Asia Chemical", "Asia Chemical", "Asia Chemical", "Asia Chemical"],
+      ["Buyer / Consignee", "ABC", "ABC", "ABC", "ABC", "ABC", "ABC"],
       ["PO Number", SHIPMENT.poNo, SHIPMENT.poNo, "—", "—", "—", SHIPMENT.poNo],
       ["Currency", "USD", "USD", "USD", "—", "USD", "USD"],
       ["Incoterm", "CIF Hai Phong", "CIF Hai Phong", "CIF Hai Phong", "—", "CIF", "—"],
       ["Payment Term", "TT 30D BL", "TT 30D BL", "TT 30D BL", "—", "—", "—"],
-      ["Bank", "BOC Qinhuangdao", "BOC Qinhuangdao", "—", "—", "—", "—"],
-      ["Shipment / Vessel", "HE SHENG 2606S", "—", "—", "HE SHENG 2606S", "HE SHENG 2606S", "—"],
+      ["Bank", "BOC XYZ", "BOC XYZ", "—", "—", "—", "—"],
+      ["Shipment / Vessel", "Vessel 2606S", "—", "—", "Vessel 2606S", "Vessel 2606S", "—"],
       ["Container", "2 x 40HC", "—", "—", "2 x 40HC", "2 x 40HC", "—"],
       ["Invoice Amount", "25,575.00 USD", "25,575.00 USD", "25,575.00 USD", "—", "25,575.00 USD", "—"],
     ],
@@ -301,7 +301,7 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
     approverTime: "08:25",
   },
 
-  // ---- Nikken Foods (A03680) — 1 invoice ↔ 3 POs, 0 Sales Contracts, mid-reconciliation at Stage 2 ----
+  // ---- XYZ (A03680) — 1 invoice ↔ 3 POs, 0 Sales Contracts, mid-reconciliation at Stage 2 ----
   A03680: {
     stage: "Stage 2",
     infoData: {
@@ -310,8 +310,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           { key: "Invoice Number", value: "A03680" },
           { key: "Invoice Date", value: "2026-03-02" },
           { key: "Order Number", value: "26010550, 26010785, 26020191" },
-          { key: "Vendor Name", value: "NIKKEN FOODS CO., LTD." },
-          { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
+          { key: "Vendor Name", value: "XYZ CO., LTD." },
+          { key: "Buyer Name", value: "ABC Corporation" },
           { key: "Currency", value: "USD" },
           { key: "Incoterms", value: "CIF" },
           { key: "Delivery Place", value: "HO CHI MINH CITY, VIETNAM" },
@@ -324,7 +324,7 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           { key: "Shipment Route", value: "YOKOHAMA, JAPAN -> HO CHI MINH CITY, VIETNAM", wide: true },
         ],
         bank: [
-          { key: "Beneficiary Name", value: "NIKKEN FOODS CO., LTD.", wide: true },
+          { key: "Beneficiary Name", value: "XYZ CO., LTD.", wide: true },
           { key: "Bank Name", value: "MIZUHO BANK LTD, HAMAMATSU BRANCH", wide: true },
           { key: "SWIFT/BIC", value: "MHCBJPJT" },
           { key: "Bank Account", value: "1165949" },
@@ -339,9 +339,9 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
         header: [
           { key: "B/L Number", value: "YOKDKK23592", mono: true },
           { key: "Transport Mode", value: "SEA" },
-          { key: "Shipper Name", value: "NIKKEN FOODS CO., LTD." },
+          { key: "Shipper Name", value: "XYZ CO., LTD." },
           { key: "Shipper Address", value: "Marukashiwa Bldg. 8F, 1-6-1 Nihonbashi Honcho, Chuo-ku, Tokyo 103-0023, Japan", wide: true },
-          { key: "Consignee Name", value: "ASIA CHEMICAL CORPORATION" },
+          { key: "Consignee Name", value: "ABC Corporation" },
           { key: "Consignee Address", value: "Lot K4B, Le Minh Xuan Industrial Zone, Road No.4, Binh Loi Commune, Ho Chi Minh City, Vietnam", wide: true },
           { key: "Notify Party", value: "SAME AS CONSIGNEE" },
           { key: "Vessel / Voyage", value: "ADDISON / 050S" },
@@ -372,9 +372,9 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           header: [
             { key: "PO Number", value: "26010550" },
             { key: "PO Date", value: "2026-01-20" },
-            { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
-            { key: "Buyer Tax Code", value: "0304918352" },
-            { key: "Seller Name", value: "Nikken Foods Co., Ltd." },
+            { key: "Buyer Name", value: "ABC Corporation" },
+            { key: "Buyer Tax Code", value: "0123456789" },
+            { key: "Seller Name", value: "XYZ Co., Ltd." },
             { key: "Seller Code", value: "30100030" },
             { key: "Currency", value: "USD" },
             { key: "Incoterm", value: "CIF" },
@@ -387,7 +387,7 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
             { key: "Total Amount", value: "21,000.00" },
           ],
           bank: [
-            { key: "Beneficiary Name", value: "NIKKEN FOODS CO., LTD.", wide: true },
+            { key: "Beneficiary Name", value: "XYZ CO., LTD.", wide: true },
             { key: "Bank Name", value: "MIZUHO BANK LTD, HAMAMATSU BRANCH", wide: true },
             { key: "SWIFT/BIC", value: "MHCBJPJT" },
             { key: "Bank Account", value: "1165949" },
@@ -405,9 +405,9 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           header: [
             { key: "PO Number", value: "26010785" },
             { key: "PO Date", value: "2026-01-26" },
-            { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
-            { key: "Buyer Tax Code", value: "0304918352" },
-            { key: "Seller Name", value: "Nikken Foods Co., Ltd." },
+            { key: "Buyer Name", value: "ABC Corporation" },
+            { key: "Buyer Tax Code", value: "0123456789" },
+            { key: "Seller Name", value: "XYZ Co., Ltd." },
             { key: "Seller Code", value: "30100030" },
             { key: "Currency", value: "USD" },
             { key: "Incoterm", value: "CIF" },
@@ -420,7 +420,7 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
             { key: "Total Amount", value: "3,150.00" },
           ],
           bank: [
-            { key: "Beneficiary Name", value: "NIKKEN FOODS CO., LTD.", wide: true },
+            { key: "Beneficiary Name", value: "XYZ CO., LTD.", wide: true },
             { key: "Bank Name", value: "MIZUHO BANK LTD, HAMAMATSU BRANCH", wide: true },
             { key: "SWIFT/BIC", value: "MHCBJPJT" },
             { key: "Bank Account", value: "1165949" },
@@ -438,9 +438,9 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           header: [
             { key: "PO Number", value: "26020191" },
             { key: "PO Date", value: "2026-02-09" },
-            { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
-            { key: "Buyer Tax Code", value: "0304918352" },
-            { key: "Seller Name", value: "Nikken Foods Co., Ltd." },
+            { key: "Buyer Name", value: "ABC Corporation" },
+            { key: "Buyer Tax Code", value: "0123456789" },
+            { key: "Seller Name", value: "XYZ Co., Ltd." },
             { key: "Seller Code", value: "30100030" },
             { key: "Currency", value: "USD" },
             { key: "Incoterm", value: "CIF" },
@@ -453,7 +453,7 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
             { key: "Total Amount", value: "172.00" },
           ],
           bank: [
-            { key: "Beneficiary Name", value: "NIKKEN FOODS CO., LTD.", wide: true },
+            { key: "Beneficiary Name", value: "XYZ CO., LTD.", wide: true },
             { key: "Bank Name", value: "MIZUHO BANK LTD, HAMAMATSU BRANCH", wide: true },
             { key: "SWIFT/BIC", value: "MHCBJPJT" },
             { key: "Bank Account", value: "1165949" },
@@ -470,8 +470,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
       { key: "Type Code", value: "A11" },
       { key: "Registration Date", value: "2026-04-02 20:22:03" },
       { key: "Importer Name", value: "CÔNG TY CỔ PHẦN HÓA CHẤT Á CHÂU", wide: true },
-      { key: "Importer Tax Code", value: "0304918352" },
-      { key: "Exporter Name", value: "NIKKEN FOODS CO., LTD.", wide: true },
+      { key: "Importer Tax Code", value: "0123456789" },
+      { key: "Exporter Name", value: "XYZ CO., LTD.", wide: true },
       { key: "Exporter Country", value: "JP" },
       { key: "B/L Number", value: "120326YOKDKK23592" },
       { key: "Invoice Number", value: "A03680" },
@@ -534,8 +534,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
     },
     stageComplete: { "Stage 1": true, "Stage 2": true, "Stage 3": false },
     headerMatchRows: [
-      ["Vendor", "Nikken Foods", "Nikken Foods", "—", "Nikken Foods", "Nikken Foods", "—"],
-      ["Buyer / Consignee", "Asia Chemical", "Asia Chemical", "—", "Asia Chemical", "Asia Chemical", "—"],
+      ["Vendor", "XYZ", "XYZ", "—", "XYZ", "XYZ", "—"],
+      ["Buyer / Consignee", "ABC", "ABC", "—", "ABC", "ABC", "—"],
       ["PO Number", "26010550, 26010785, 26020191", "26010550, 26010785, 26020191", "—", "—", "—", "—"],
       ["Contract Number", "Không áp dụng", "Không áp dụng", "Không áp dụng", "—", "—", "—"],
       ["Currency", "USD", "USD", "—", "—", "USD", "—"],
@@ -618,7 +618,7 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           { key: "Invoice Date", value: "2026-03-18" },
           { key: "Order Number", value: "Multiple (see line items)" },
           { key: "Vendor Name", value: "SYMRISE ASIA PACIFIC PTE LTD" },
-          { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
+          { key: "Buyer Name", value: "ABC Corporation" },
           { key: "Currency", value: "USD" },
           { key: "Incoterms", value: "EXW SINGAPORE" },
           { key: "Delivery Place", value: "HO CHI MINH PORT" },
@@ -662,7 +662,7 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           { key: "Transport Mode", value: "SEA" },
           { key: "Shipper Name", value: "SYMRISE ASIA PACIFIC PTE. LTD." },
           { key: "Shipper Address", value: "226 PANDAN LOOP, SINGAPORE 128412", wide: true },
-          { key: "Consignee Name", value: "ASIA CHEMICAL CORPORATION" },
+          { key: "Consignee Name", value: "ABC Corporation" },
           { key: "Consignee Address", value: "LOT K4B, LE MINH XUAN INDUSTRIAL ZONE, ROAD NO.4, BINH LOI COMMUNE, HO CHI MINH CITY, VIET NAM", wide: true },
           { key: "Notify Party", value: "SAME AS CONSIGNEE" },
           { key: "Vessel / Voyage", value: "KOTA NAZIM / 0211N" },
@@ -707,8 +707,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           header: [
             { key: "PO Number", value: "26020253" },
             { key: "PO Date", value: "2026-02-10" },
-            { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
-            { key: "Buyer Tax Code", value: "0304918352" },
+            { key: "Buyer Name", value: "ABC Corporation" },
+            { key: "Buyer Tax Code", value: "0123456789" },
             { key: "Seller Name", value: "SYMRISE ASIA PACIFIC PTE LTD" },
             { key: "Seller Code", value: "30102889" },
             { key: "Currency", value: "USD" },
@@ -741,8 +741,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           header: [
             { key: "PO Number", value: "26010762" },
             { key: "PO Date", value: "2026-01-26" },
-            { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
-            { key: "Buyer Tax Code", value: "0304918352" },
+            { key: "Buyer Name", value: "ABC Corporation" },
+            { key: "Buyer Tax Code", value: "0123456789" },
             { key: "Seller Name", value: "SYMRISE ASIA PACIFIC PTE LTD" },
             { key: "Seller Code", value: "30102889" },
             { key: "Currency", value: "USD" },
@@ -776,8 +776,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           header: [
             { key: "PO Number", value: "26010579" },
             { key: "PO Date", value: "2026-01-20" },
-            { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
-            { key: "Buyer Tax Code", value: "0304918352" },
+            { key: "Buyer Name", value: "ABC Corporation" },
+            { key: "Buyer Tax Code", value: "0123456789" },
             { key: "Seller Name", value: "SYMRISE ASIA PACIFIC PTE LTD" },
             { key: "Seller Code", value: "30102889" },
             { key: "Currency", value: "USD" },
@@ -809,8 +809,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           header: [
             { key: "PO Number", value: "26010578" },
             { key: "PO Date", value: "2026-01-20" },
-            { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
-            { key: "Buyer Tax Code", value: "0304918352" },
+            { key: "Buyer Name", value: "ABC Corporation" },
+            { key: "Buyer Tax Code", value: "0123456789" },
             { key: "Seller Name", value: "SYMRISE ASIA PACIFIC PTE LTD" },
             { key: "Seller Code", value: "30102889" },
             { key: "Currency", value: "USD" },
@@ -843,8 +843,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           header: [
             { key: "PO Number", value: "26010468" },
             { key: "PO Date", value: "2026-01-16" },
-            { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
-            { key: "Buyer Tax Code", value: "0304918352" },
+            { key: "Buyer Name", value: "ABC Corporation" },
+            { key: "Buyer Tax Code", value: "0123456789" },
             { key: "Seller Name", value: "SYMRISE ASIA PACIFIC PTE LTD" },
             { key: "Seller Code", value: "30102889" },
             { key: "Currency", value: "USD" },
@@ -877,8 +877,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           header: [
             { key: "PO Number", value: "26010318" },
             { key: "PO Date", value: "2026-01-13" },
-            { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
-            { key: "Buyer Tax Code", value: "0304918352" },
+            { key: "Buyer Name", value: "ABC Corporation" },
+            { key: "Buyer Tax Code", value: "0123456789" },
             { key: "Seller Name", value: "SYMRISE ASIA PACIFIC PTE LTD" },
             { key: "Seller Code", value: "30102889" },
             { key: "Currency", value: "USD" },
@@ -910,8 +910,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           header: [
             { key: "PO Number", value: "26010089" },
             { key: "PO Date", value: "2026-01-05" },
-            { key: "Buyer Name", value: "ASIA CHEMICAL CORPORATION" },
-            { key: "Buyer Tax Code", value: "0304918352" },
+            { key: "Buyer Name", value: "ABC Corporation" },
+            { key: "Buyer Tax Code", value: "0123456789" },
             { key: "Seller Name", value: "SYMRISE ASIA PACIFIC PTE LTD" },
             { key: "Seller Code", value: "30102889" },
             { key: "Currency", value: "USD" },
@@ -953,7 +953,7 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
       { key: "Type Code", value: "A11" },
       { key: "Registration Date", value: "2026-04-02 16:13:23" },
       { key: "Importer Name", value: "CÔNG TY CỔ PHẦN HÓA CHẤT Á CHÂU", wide: true },
-      { key: "Importer Tax Code", value: "0304918352" },
+      { key: "Importer Tax Code", value: "0123456789" },
       { key: "Exporter Name", value: "SYMRISE ASIA PACIFIC PTE LTD", wide: true },
       { key: "Exporter Country", value: "SG" },
       { key: "B/L Number", value: "260326SE2603021" },
@@ -1044,7 +1044,7 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
     stageComplete: { "Stage 1": true, "Stage 2": true, "Stage 3": false },
     headerMatchRows: [
       ["Vendor", "Symrise Asia Pacific", "Symrise Asia Pacific", "—", "Symrise Asia Pacific", "Symrise Asia Pacific", "—"],
-      ["Buyer / Consignee", "Asia Chemical", "Asia Chemical", "—", "Asia Chemical", "Asia Chemical", "—"],
+      ["Buyer / Consignee", "ABC", "ABC", "—", "ABC", "ABC", "—"],
       ["PO Number", "26020253, 26010762, 26010579, 26010578, 26010468, 26010318, 26010089", "26020253, 26010762, 26010579, 26010578, 26010468, 26010318, 26010089", "—", "—", "—", "—"],
       ["Contract Number", "Không áp dụng", "Không áp dụng", "Không áp dụng", "—", "—", "—"],
       ["Currency", "USD", "USD", "—", "—", "USD", "—"],
@@ -1056,7 +1056,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
       ["Invoice Amount", "351,241.20 USD", "351,241.20 USD", "—", "—", "351,241.20 USD", "—"],
     ],
     itemMatchLines: [
-      { id: 20, itemCode: "64779241", productName: "RADIANT BOUQUET DC -180 KG", uom: "KG", qty: "360.000", unitPrice: "12.62", lineAmount: "4,543.20",
+      {
+        id: 20, itemCode: "64779241", productName: "RADIANT BOUQUET DC -180 KG", uom: "KG", qty: "360.000", unitPrice: "12.62", lineAmount: "4,543.20",
         matchedDocs: {
           "Stage 1": [
             { label: "Purchase Order", docNo: "26010089", qty: "360.00", unitPrice: "12.6200", lineAmount: "4,543.20" },
@@ -1070,7 +1071,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           "Stage 3": [],
         },
       },
-      { id: 110, itemCode: "68475444", productName: "OPTAMINT® HARMONY -180 KG", uom: "KG", qty: "1,080.000", unitPrice: "24.65", lineAmount: "26,622.00",
+      {
+        id: 110, itemCode: "68475444", productName: "OPTAMINT® HARMONY -180 KG", uom: "KG", qty: "1,080.000", unitPrice: "24.65", lineAmount: "26,622.00",
         matchedDocs: {
           "Stage 1": [
             { label: "Purchase Order", docNo: "26010089", qty: "1,080.00", unitPrice: "24.6500", lineAmount: "26,622.00" },
@@ -1084,7 +1086,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           "Stage 3": [],
         },
       },
-      { id: 120, itemCode: "68475444", productName: "OPTAMINT® HARMONY -180 KG", uom: "KG", qty: "1,620.000", unitPrice: "24.65", lineAmount: "39,933.00",
+      {
+        id: 120, itemCode: "68475444", productName: "OPTAMINT® HARMONY -180 KG", uom: "KG", qty: "1,620.000", unitPrice: "24.65", lineAmount: "39,933.00",
         matchedDocs: {
           "Stage 1": [
             { label: "Purchase Order", docNo: "26010089", qty: "1,620.00", unitPrice: "24.6500", lineAmount: "39,933.00" },
@@ -1098,7 +1101,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           "Stage 3": [],
         },
       },
-      { id: 121, itemCode: "67946086", productName: "ISLAND MOOD -180 KG", uom: "KG", qty: "540.000", unitPrice: "15.14", lineAmount: "8,175.60",
+      {
+        id: 121, itemCode: "67946086", productName: "ISLAND MOOD -180 KG", uom: "KG", qty: "540.000", unitPrice: "15.14", lineAmount: "8,175.60",
         matchedDocs: {
           "Stage 1": [
             { label: "Purchase Order", docNo: "26010579", qty: "540.00", unitPrice: "15.1400", lineAmount: "8,175.60" },
@@ -1112,7 +1116,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           "Stage 3": [],
         },
       },
-      { id: 122, itemCode: "64938505", productName: "GINGER THERAPY -180 KG", uom: "KG", qty: "360.000", unitPrice: "20.04", lineAmount: "7,214.40",
+      {
+        id: 122, itemCode: "64938505", productName: "GINGER THERAPY -180 KG", uom: "KG", qty: "360.000", unitPrice: "20.04", lineAmount: "7,214.40",
         matchedDocs: {
           "Stage 1": [
             { label: "Purchase Order", docNo: "26010578", qty: "360.00", unitPrice: "20.0400", lineAmount: "7,214.40" },
@@ -1126,7 +1131,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           "Stage 3": [],
         },
       },
-      { id: 123, itemCode: "65553016", productName: "OPTAMINT® ARTISAN WHITE -180 KG", uom: "KG", qty: "180.000", unitPrice: "20.18", lineAmount: "3,632.40",
+      {
+        id: 123, itemCode: "65553016", productName: "OPTAMINT® ARTISAN WHITE -180 KG", uom: "KG", qty: "180.000", unitPrice: "20.18", lineAmount: "3,632.40",
         matchedDocs: {
           "Stage 1": [
             { label: "Purchase Order", docNo: "26010762", qty: "180.00", unitPrice: "20.1800", lineAmount: "3,632.40" },
@@ -1140,7 +1146,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           "Stage 3": [],
         },
       },
-      { id: 124, itemCode: "20279949", productName: "OPTAMINT® GREEN PARADISE -180 KG", uom: "KG", qty: "900.000", unitPrice: "18.80", lineAmount: "16,920.00",
+      {
+        id: 124, itemCode: "20279949", productName: "OPTAMINT® GREEN PARADISE -180 KG", uom: "KG", qty: "900.000", unitPrice: "18.80", lineAmount: "16,920.00",
         matchedDocs: {
           "Stage 1": [
             { label: "Purchase Order", docNo: "26010089", qty: "900.00", unitPrice: "18.8000", lineAmount: "16,920.00" },
@@ -1154,7 +1161,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           "Stage 3": [],
         },
       },
-      { id: 125, itemCode: "62875003", productName: "OPTAMINT® -180 KG", uom: "KG", qty: "540.000", unitPrice: "37.94", lineAmount: "20,487.60",
+      {
+        id: 125, itemCode: "62875003", productName: "OPTAMINT® -180 KG", uom: "KG", qty: "540.000", unitPrice: "37.94", lineAmount: "20,487.60",
         matchedDocs: {
           "Stage 1": [
             { label: "Purchase Order", docNo: "26010318", qty: "540.00", unitPrice: "37.9400", lineAmount: "20,487.60" },
@@ -1168,7 +1176,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           "Stage 3": [],
         },
       },
-      { id: 126, itemCode: "68186353", productName: "OPTAMINT® CREAMYLICIOUS STRAWBERRY -180 KG", uom: "KG", qty: "180.000", unitPrice: "23.04", lineAmount: "4,147.20",
+      {
+        id: 126, itemCode: "68186353", productName: "OPTAMINT® CREAMYLICIOUS STRAWBERRY -180 KG", uom: "KG", qty: "180.000", unitPrice: "23.04", lineAmount: "4,147.20",
         matchedDocs: {
           "Stage 1": [
             { label: "Purchase Order", docNo: "26010468", qty: "180.00", unitPrice: "23.0400", lineAmount: "4,147.20" },
@@ -1182,7 +1191,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           "Stage 3": [],
         },
       },
-      { id: 127, itemCode: "65553016", productName: "OPTAMINT® ARTISAN WHITE -180 KG", uom: "KG", qty: "180.000", unitPrice: "20.18", lineAmount: "3,632.40",
+      {
+        id: 127, itemCode: "65553016", productName: "OPTAMINT® ARTISAN WHITE -180 KG", uom: "KG", qty: "180.000", unitPrice: "20.18", lineAmount: "3,632.40",
         matchedDocs: {
           "Stage 1": [
             { label: "Purchase Order", docNo: "26010089", qty: "180.00", unitPrice: "20.1800", lineAmount: "3,632.40" },
@@ -1196,7 +1206,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           "Stage 3": [],
         },
       },
-      { id: 128, itemCode: "62754355", productName: "OPTAMINT® QI-CON -180 KG", uom: "KG", qty: "900.000", unitPrice: "26.93", lineAmount: "24,237.00",
+      {
+        id: 128, itemCode: "62754355", productName: "OPTAMINT® QI-CON -180 KG", uom: "KG", qty: "900.000", unitPrice: "26.93", lineAmount: "24,237.00",
         matchedDocs: {
           "Stage 1": [
             { label: "Purchase Order", docNo: "26010762", qty: "900.00", unitPrice: "26.9300", lineAmount: "24,237.00" },
@@ -1210,7 +1221,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           "Stage 3": [],
         },
       },
-      { id: 129, itemCode: "65542100", productName: "OPTAMINT RUBY EMBRACE II -180 KG", uom: "KG", qty: "900.000", unitPrice: "12.03", lineAmount: "10,827.00",
+      {
+        id: 129, itemCode: "65542100", productName: "OPTAMINT RUBY EMBRACE II -180 KG", uom: "KG", qty: "900.000", unitPrice: "12.03", lineAmount: "10,827.00",
         matchedDocs: {
           "Stage 1": [
             { label: "Purchase Order", docNo: "26020253", qty: "900.00", unitPrice: "12.0300", lineAmount: "10,827.00" },
@@ -1224,7 +1236,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           "Stage 3": [],
         },
       },
-      { id: 130, itemCode: "64005521", productName: "OPTAMINT® -180 KG", uom: "KG", qty: "2,340.000", unitPrice: "23.99", lineAmount: "56,136.60",
+      {
+        id: 130, itemCode: "64005521", productName: "OPTAMINT® -180 KG", uom: "KG", qty: "2,340.000", unitPrice: "23.99", lineAmount: "56,136.60",
         matchedDocs: {
           "Stage 1": [
             { label: "Purchase Order", docNo: "26010089", qty: "2,340.00", unitPrice: "23.9900", lineAmount: "56,136.60" },
@@ -1238,7 +1251,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           "Stage 3": [],
         },
       },
-      { id: 131, itemCode: "64005521", productName: "OPTAMINT® -180 KG", uom: "KG", qty: "1,440.000", unitPrice: "23.99", lineAmount: "34,545.60",
+      {
+        id: 131, itemCode: "64005521", productName: "OPTAMINT® -180 KG", uom: "KG", qty: "1,440.000", unitPrice: "23.99", lineAmount: "34,545.60",
         matchedDocs: {
           "Stage 1": [
             { label: "Purchase Order", docNo: "26010089", qty: "1,440.00", unitPrice: "23.9900", lineAmount: "34,545.60" },
@@ -1252,7 +1266,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           "Stage 3": [],
         },
       },
-      { id: 132, itemCode: "62754355", productName: "OPTAMINT® QI-CON -180 KG", uom: "KG", qty: "1,620.000", unitPrice: "26.93", lineAmount: "43,626.60",
+      {
+        id: 132, itemCode: "62754355", productName: "OPTAMINT® QI-CON -180 KG", uom: "KG", qty: "1,620.000", unitPrice: "26.93", lineAmount: "43,626.60",
         matchedDocs: {
           "Stage 1": [
             { label: "Purchase Order", docNo: "26010089", qty: "1,620.00", unitPrice: "26.9300", lineAmount: "43,626.60" },
@@ -1266,7 +1281,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           "Stage 3": [],
         },
       },
-      { id: 133, itemCode: "20279949", productName: "OPTAMINT® GREEN PARADISE -180 KG", uom: "KG", qty: "1,440.000", unitPrice: "18.80", lineAmount: "27,072.00",
+      {
+        id: 133, itemCode: "20279949", productName: "OPTAMINT® GREEN PARADISE -180 KG", uom: "KG", qty: "1,440.000", unitPrice: "18.80", lineAmount: "27,072.00",
         matchedDocs: {
           "Stage 1": [
             { label: "Purchase Order", docNo: "26010089", qty: "1,440.00", unitPrice: "18.8000", lineAmount: "27,072.00" },
@@ -1280,7 +1296,8 @@ const INVOICE_PROFILES: Record<string, InvoiceProfile> = {
           "Stage 3": [],
         },
       },
-      { id: 134, itemCode: "65542100", productName: "OPTAMINT RUBY EMBRACE II -180 KG", uom: "KG", qty: "1,620.000", unitPrice: "12.03", lineAmount: "19,488.60",
+      {
+        id: 134, itemCode: "65542100", productName: "OPTAMINT RUBY EMBRACE II -180 KG", uom: "KG", qty: "1,620.000", unitPrice: "12.03", lineAmount: "19,488.60",
         matchedDocs: {
           "Stage 1": [
             { label: "Purchase Order", docNo: "26020253", qty: "1,620.00", unitPrice: "12.0300", lineAmount: "19,488.60" },
@@ -1389,165 +1406,162 @@ function InvoiceDetailPage() {
 
   return (
     <>
-    <AppShell
-      breadcrumb={
-        <div className="flex items-center gap-1.5">
-          <span>{t("Import Operations")}</span>
-          <ChevronRight className="h-3 w-3" />
-          <Link to="/" className="hover:text-primary">{t("Invoice List")}</Link>
-          <ChevronRight className="h-3 w-3" />
-          <span className="text-text-primary font-medium">{id}</span>
-        </div>
-      }
-    >
-      <div className="p-4 h-full flex flex-col">
-        {/* Split view */}
-        <div
-          className={`relative grid flex-1 min-h-0 transition-[grid-template-columns] duration-200 ${
-            pdfCollapsed ? "grid-cols-[0px_1fr] gap-0" : "grid-cols-[35%_1fr] gap-3"
-          }`}
-        >
-          {/* Collapse/expand toggle — sits on the border between the two panels */}
-          <button
-            onClick={() => setPdfCollapsed((v) => !v)}
-            title={pdfCollapsed ? t("Show original document") : t("Hide original document")}
-            className={`absolute top-14 z-10 h-9 w-4 inline-flex items-center justify-center rounded-r-md border border-l-0 border-border bg-white shadow-sm text-text-secondary hover:bg-muted hover:text-primary transition-[left] duration-200 ${
-              pdfCollapsed ? "left-0" : "left-[35%]"
-            }`}
-          >
-            {pdfCollapsed ? <ChevronsRight className="h-3 w-3" /> : <ChevronsLeft className="h-3 w-3" />}
-          </button>
-
-          {/* LEFT — PDF viewer */}
-          <div className={`h-full min-w-0 min-h-0 grid ${pdfCollapsed ? "overflow-hidden pointer-events-none" : ""}`}>
-            <PdfViewer profile={profile} active={infoTab} declarationVariant={declarationVariant} selectedPoId={selectedPoId} selectedContractId={selectedContractId} />
+      <AppShell
+        breadcrumb={
+          <div className="flex items-center gap-1.5">
+            <span>{t("Import Operations")}</span>
+            <ChevronRight className="h-3 w-3" />
+            <Link to="/" className="hover:text-primary">{t("Invoice List")}</Link>
+            <ChevronRight className="h-3 w-3" />
+            <span className="text-text-primary font-medium">{id}</span>
           </div>
+        }
+      >
+        <div className="p-4 h-full flex flex-col">
+          {/* Split view */}
+          <div
+            className={`relative grid flex-1 min-h-0 transition-[grid-template-columns] duration-200 ${pdfCollapsed ? "grid-cols-[0px_1fr] gap-0" : "grid-cols-[35%_1fr] gap-3"
+              }`}
+          >
+            {/* Collapse/expand toggle — sits on the border between the two panels */}
+            <button
+              onClick={() => setPdfCollapsed((v) => !v)}
+              title={pdfCollapsed ? t("Show original document") : t("Hide original document")}
+              className={`absolute top-14 z-10 h-9 w-4 inline-flex items-center justify-center rounded-r-md border border-l-0 border-border bg-white shadow-sm text-text-secondary hover:bg-muted hover:text-primary transition-[left] duration-200 ${pdfCollapsed ? "left-0" : "left-[35%]"
+                }`}
+            >
+              {pdfCollapsed ? <ChevronsRight className="h-3 w-3" /> : <ChevronsLeft className="h-3 w-3" />}
+            </button>
 
-          {/* RIGHT */}
-          <div className="bg-white border border-border rounded-md flex flex-col min-w-0 min-h-0">
-            {/* Main tabs */}
-            <div className="border-b border-border flex items-center px-2">
-              {(["Information", "Matching", "Activity"] as MainTab[]).map((mt, i) => (
-                <Fragment key={mt}>
-                  {i > 0 && <div className="h-4 w-px bg-border" />}
-                  <button
-                    onClick={() => setMainTab(mt)}
-                    className="h-12 px-4 inline-flex flex-col items-center justify-center gap-1.5"
-                  >
-                    <span className={`text-[12.5px] font-medium uppercase tracking-wide ${
-                      mainTab === mt ? "text-primary" : "text-text-secondary hover:text-text-primary"
-                    }`}>
-                      {t(mt)}
-                    </span>
-                    <span className={`h-[1.5px] w-full rounded-full ${mainTab === mt ? "bg-primary" : "bg-transparent"}`} />
-                  </button>
-                </Fragment>
-              ))}
+            {/* LEFT — PDF viewer */}
+            <div className={`h-full min-w-0 min-h-0 grid ${pdfCollapsed ? "overflow-hidden pointer-events-none" : ""}`}>
+              <PdfViewer profile={profile} active={infoTab} declarationVariant={declarationVariant} selectedPoId={selectedPoId} selectedContractId={selectedContractId} />
             </div>
 
-            <div className="flex-1 overflow-auto">
-              {mainTab === "Information" && (
-                <InformationTab
-                  key={id}
-                  profile={profile}
-                  infoTab={infoTab}
-                  setInfoTab={setInfoTab}
-                  stage={profile.stage}
-                  docStatus={phaseStatus[profile.stage]}
-                  declarationVariant={declarationVariant}
-                  setDeclarationVariant={setDeclarationVariant}
-                  selectedPoId={selectedPoId}
-                  setSelectedPoId={setSelectedPoId}
-                  selectedContractId={selectedContractId}
-                  setSelectedContractId={setSelectedContractId}
+            {/* RIGHT */}
+            <div className="bg-white border border-border rounded-md flex flex-col min-w-0 min-h-0">
+              {/* Main tabs */}
+              <div className="border-b border-border flex items-center px-2">
+                {(["Information", "Matching", "Activity"] as MainTab[]).map((mt, i) => (
+                  <Fragment key={mt}>
+                    {i > 0 && <div className="h-4 w-px bg-border" />}
+                    <button
+                      onClick={() => setMainTab(mt)}
+                      className="h-12 px-4 inline-flex flex-col items-center justify-center gap-1.5"
+                    >
+                      <span className={`text-[12.5px] font-medium uppercase tracking-wide ${mainTab === mt ? "text-primary" : "text-text-secondary hover:text-text-primary"
+                        }`}>
+                        {t(mt)}
+                      </span>
+                      <span className={`h-[1.5px] w-full rounded-full ${mainTab === mt ? "bg-primary" : "bg-transparent"}`} />
+                    </button>
+                  </Fragment>
+                ))}
+              </div>
+
+              <div className="flex-1 overflow-auto">
+                {mainTab === "Information" && (
+                  <InformationTab
+                    key={id}
+                    profile={profile}
+                    infoTab={infoTab}
+                    setInfoTab={setInfoTab}
+                    stage={profile.stage}
+                    docStatus={phaseStatus[profile.stage]}
+                    declarationVariant={declarationVariant}
+                    setDeclarationVariant={setDeclarationVariant}
+                    selectedPoId={selectedPoId}
+                    setSelectedPoId={setSelectedPoId}
+                    selectedContractId={selectedContractId}
+                    setSelectedContractId={setSelectedContractId}
+                  />
+                )}
+                {mainTab === "Matching" && (
+                  <MatchingTab key={id} profile={profile} stage={stage} setStage={setStage} phaseStatus={phaseStatus} />
+                )}
+                {mainTab === "Activity" && <ActivityTab profile={profile} extraEvents={activityLog} />}
+              </div>
+
+              {mainTab === "Matching" && (
+                <BottomActionBar
+                  phaseState={phaseStatus[stage]}
+                  stageComplete={profile.stageComplete[stage]}
+                  approverName={profile.approverName}
+                  approverTime={profile.approverTime}
+                  onReject={openReject}
+                  onOpenResetConfirm={openResetConfirm}
                 />
               )}
-              {mainTab === "Matching" && (
-                <MatchingTab key={id} profile={profile} stage={stage} setStage={setStage} phaseStatus={phaseStatus} />
-              )}
-              {mainTab === "Activity" && <ActivityTab profile={profile} extraEvents={activityLog} />}
             </div>
+          </div>
+        </div>
+      </AppShell>
 
-            {mainTab === "Matching" && (
-              <BottomActionBar
-                phaseState={phaseStatus[stage]}
-                stageComplete={profile.stageComplete[stage]}
-                approverName={profile.approverName}
-                approverTime={profile.approverTime}
-                onReject={openReject}
-                onOpenResetConfirm={openResetConfirm}
+      {rejectStep === 1 && (
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-md shadow-lg w-full max-w-md">
+            <div className="px-5 pt-5 pb-3 border-b border-border">
+              <div className="text-[14px] font-semibold text-text-primary">{t("Reason for rejecting invoice")}</div>
+            </div>
+            <div className="px-5 py-4">
+              <textarea
+                autoFocus
+                value={rejectReason}
+                onChange={(e) => setRejectReason(e.target.value)}
+                placeholder={t("Add rejection reason...")}
+                rows={4}
+                className="w-full border border-border rounded-md px-3 py-2 text-[12.5px] focus:outline-none focus:border-primary resize-none"
               />
-            )}
+              {!rejectReason.trim() && (
+                <div className="text-[11px] text-error mt-1.5">{t("Reason is required")}</div>
+              )}
+            </div>
+            <div className="px-5 pb-5 flex items-center justify-end gap-2">
+              <button
+                onClick={closeReasonModal}
+                className="h-8 px-4 border border-border text-text-primary bg-white rounded-full text-[12px] font-medium hover:bg-muted"
+              >
+                {t("Close")}
+              </button>
+              <button
+                onClick={confirmReason}
+                disabled={!rejectReason.trim()}
+                className="h-8 px-4 bg-primary text-white rounded-full text-[12px] font-medium hover:brightness-110 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:brightness-100"
+              >
+                {t("Confirm")}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </AppShell>
+      )}
 
-    {rejectStep === 1 && (
-      <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-md shadow-lg w-full max-w-md">
-          <div className="px-5 pt-5 pb-3 border-b border-border">
-            <div className="text-[14px] font-semibold text-text-primary">{t("Reason for rejecting invoice")}</div>
-          </div>
-          <div className="px-5 py-4">
-            <textarea
-              autoFocus
-              value={rejectReason}
-              onChange={(e) => setRejectReason(e.target.value)}
-              placeholder={t("Add rejection reason...")}
-              rows={4}
-              className="w-full border border-border rounded-md px-3 py-2 text-[12.5px] focus:outline-none focus:border-primary resize-none"
-            />
-            {!rejectReason.trim() && (
-              <div className="text-[11px] text-error mt-1.5">{t("Reason is required")}</div>
-            )}
-          </div>
-          <div className="px-5 pb-5 flex items-center justify-end gap-2">
-            <button
-              onClick={closeReasonModal}
-              className="h-8 px-4 border border-border text-text-primary bg-white rounded-full text-[12px] font-medium hover:bg-muted"
-            >
-              {t("Close")}
-            </button>
-            <button
-              onClick={confirmReason}
-              disabled={!rejectReason.trim()}
-              className="h-8 px-4 bg-primary text-white rounded-full text-[12px] font-medium hover:brightness-110 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:brightness-100"
-            >
-              {t("Confirm")}
-            </button>
-          </div>
-        </div>
-      </div>
-    )}
+      {rejectStep === 2 && (
+        <ConfirmModal
+          icon={<AlertTriangle className="h-6 w-6 text-warning" />}
+          message={
+            <>
+              {t("Are you sure you want to")}{" "}
+              <span className="text-error font-semibold">{t("not approve")}</span>{" "}
+              {t("this invoice?")}
+            </>
+          }
+          cancelLabel={t("No, skip")}
+          confirmLabel={t("Confirm")}
+          onCancel={cancelWarning}
+          onConfirm={confirmReject}
+        />
+      )}
 
-    {rejectStep === 2 && (
-      <ConfirmModal
-        icon={<AlertTriangle className="h-6 w-6 text-warning" />}
-        message={
-          <>
-            {t("Are you sure you want to")}{" "}
-            <span className="text-error font-semibold">{t("not approve")}</span>{" "}
-            {t("this invoice?")}
-          </>
-        }
-        cancelLabel={t("No, skip")}
-        confirmLabel={t("Confirm")}
-        onCancel={cancelWarning}
-        onConfirm={confirmReject}
-      />
-    )}
-
-    {resetConfirmOpen && (
-      <ConfirmModal
-        icon={<AlertTriangle className="h-6 w-6 text-warning" />}
-        message={t("Confirm return to pending?")}
-        cancelLabel={t("Cancel")}
-        confirmLabel={t("Confirm")}
-        onCancel={cancelResetConfirm}
-        onConfirm={confirmReset}
-      />
-    )}
+      {resetConfirmOpen && (
+        <ConfirmModal
+          icon={<AlertTriangle className="h-6 w-6 text-warning" />}
+          message={t("Confirm return to pending?")}
+          cancelLabel={t("Cancel")}
+          confirmLabel={t("Confirm")}
+          onCancel={cancelResetConfirm}
+          onConfirm={confirmReset}
+        />
+      )}
     </>
   );
 }
@@ -1597,8 +1611,8 @@ function PdfViewer({ profile, active, declarationVariant, selectedPoId, selected
   const pdfUrl = isCustomsDeclaration
     ? (declarationVariant === "Original" ? originalDeclarationFileUrl : adjustedDeclarationFileUrl)
     : active === "Purchase Order" ? (currentPo?.fileUrl ?? null)
-    : active === "Sales Contract" ? (currentContract?.fileUrl ?? null)
-    : pdfMap[active];
+      : active === "Sales Contract" ? (currentContract?.fileUrl ?? null)
+        : pdfMap[active];
   const isEmptyAdjusted = isCustomsDeclaration && declarationVariant === "Adjusted" && !pdfUrl;
 
   return (
@@ -1647,9 +1661,8 @@ function SegmentedSelector({ options, activeId, onSelect }: {
           {i > 0 && <div className="w-px h-full bg-border" />}
           <button
             onClick={() => onSelect(opt.id)}
-            className={`px-3 h-7 text-[11.5px] font-medium ${
-              activeId === opt.id ? "bg-primary-light text-primary" : "bg-white text-text-secondary hover:bg-muted hover:text-text-primary"
-            }`}
+            className={`px-3 h-7 text-[11.5px] font-medium ${activeId === opt.id ? "bg-primary-light text-primary" : "bg-white text-text-secondary hover:bg-muted hover:text-text-primary"
+              }`}
           >
             {opt.label}
           </button>
@@ -1664,14 +1677,14 @@ function DocumentPreview({ kind }: { kind: InfoTab }) {
     return (
       <div className="space-y-2 leading-tight">
         <div className="text-center border-b border-border pb-2">
-          <div className="font-semibold text-[12px]">QINHUANGDAO LIHUA STARCH CO., LTD.</div>
-          <div className="text-[9px] text-text-secondary">No.89 Lihua Street, Funing District, Qinhuangdao, Hebei, China</div>
+          <div className="font-semibold text-[12px]">XYZ CO., LTD.</div>
+          <div className="text-[9px] text-text-secondary">No.89 Lihua Street, Funing District, XYZ, Hebei, China</div>
           <div className="mt-2 font-semibold tracking-widest text-[11px]">COMMERCIAL INVOICE</div>
         </div>
         <PreviewRow k="Invoice No" v={SHIPMENT.invoiceNo} />
         <PreviewRow k="Invoice Date" v={SHIPMENT.invoiceDate} />
         <PreviewRow k="Contract No" v={SHIPMENT.contractNo} />
-        <PreviewRow k="Consignee" v="ASIA CHEMICAL CORPORATION" />
+        <PreviewRow k="Consignee" v="ABC Corporation" />
         <PreviewRow k="Incoterm" v={SHIPMENT.incoterm} />
         <PreviewRow k="Payment" v={SHIPMENT.paymentTerm} />
         <div className="border-t border-border mt-2 pt-2">
@@ -1714,8 +1727,8 @@ function DocumentPreview({ kind }: { kind: InfoTab }) {
         <div className="text-center font-semibold text-[11px] border-b border-border pb-1.5">TỜ KHAI HẢI QUAN NHẬP KHẨU</div>
         <PreviewRow k="Declaration No" v="105678923420" />
         <PreviewRow k="Date" v={SHIPMENT.customsDate} />
-        <PreviewRow k="Importer" v="Asia Chemical Corporation" />
-        <PreviewRow k="Exporter" v="Qinhuangdao Lihua Starch" />
+        <PreviewRow k="Importer" v="ABC Corporation" />
+        <PreviewRow k="Exporter" v="XYZ Lihua Starch" />
         <PreviewRow k="Invoice" v={SHIPMENT.invoiceNo} />
         <PreviewRow k="Invoice Value" v={`${SHIPMENT.amount} USD`} />
         <PreviewRow k="Customs Value" v={`${SHIPMENT.customsValueVnd} VND`} />
@@ -1729,8 +1742,8 @@ function DocumentPreview({ kind }: { kind: InfoTab }) {
       <div className="space-y-1.5 leading-tight">
         <div className="text-center font-semibold text-[11px] border-b border-border pb-1.5">SALES CONTRACT</div>
         <PreviewRow k="Contract No" v={SHIPMENT.contractNo} />
-        <PreviewRow k="Seller" v="Qinhuangdao Lihua Starch Co., Ltd." />
-        <PreviewRow k="Buyer" v="Asia Chemical Corporation" />
+        <PreviewRow k="Seller" v="XYZ CO., LTD." />
+        <PreviewRow k="Buyer" v="ABC Corporation" />
         <PreviewRow k="Product" v={SHIPMENT.product} />
         <PreviewRow k="Quantity" v={`${SHIPMENT.qty} KG`} />
         <PreviewRow k="Unit Price" v={`${SHIPMENT.unitPrice} USD / MT`} />
@@ -1745,7 +1758,7 @@ function DocumentPreview({ kind }: { kind: InfoTab }) {
       <div className="text-center font-semibold text-[11px] border-b border-border pb-1.5">PURCHASE ORDER</div>
       <PreviewRow k="PO Number" v={SHIPMENT.poNo} />
       <PreviewRow k="Status" v="Approved" />
-      <PreviewRow k="Vendor" v="Qinhuangdao Lihua Starch Co., Ltd." />
+      <PreviewRow k="Vendor" v="XYZ CO., LTD." />
       <PreviewRow k="Currency" v="USD" />
       <PreviewRow k="Material" v={SHIPMENT.product} />
       <PreviewRow k="Qty" v={`${SHIPMENT.qty} KG`} />
@@ -1805,9 +1818,9 @@ function InformationTab({
   const isEditing = isEditable && editingTab === infoTab;
   const savedDocData =
     infoTab === "Purchase Order" ? (currentPo ? poSavedData[currentPo.id] : undefined)
-    : infoTab === "Sales Contract" ? (currentContract ? contractSavedData[currentContract.id] : undefined)
-    : isEditable ? savedData[infoTab as SingularInfoTab]
-    : undefined;
+      : infoTab === "Sales Contract" ? (currentContract ? contractSavedData[currentContract.id] : undefined)
+        : isEditable ? savedData[infoTab as SingularInfoTab]
+          : undefined;
   const docData = isEditable ? (isEditing ? draft : (savedDocData ?? null)) : null;
 
   const handleEdit = () => {
@@ -2018,13 +2031,11 @@ function InformationTab({
             {i > 0 && <div className="h-4 w-px bg-border" />}
             <button
               onClick={() => setInfoTab(it)}
-              className={`px-3.5 py-2 my-1 inline-flex flex-col items-center gap-1 rounded-md ${
-                infoTab === it ? "bg-primary-light" : ""
-              }`}
+              className={`px-3.5 py-2 my-1 inline-flex flex-col items-center gap-1 rounded-md ${infoTab === it ? "bg-primary-light" : ""
+                }`}
             >
-              <span className={`text-[11.5px] font-medium uppercase tracking-wide whitespace-nowrap ${
-                infoTab === it ? "text-primary" : "text-text-secondary hover:text-text-primary"
-              }`}>
+              <span className={`text-[11.5px] font-medium uppercase tracking-wide whitespace-nowrap ${infoTab === it ? "text-primary" : "text-text-secondary hover:text-text-primary"
+                }`}>
                 {t(it)}
               </span>
               <span className={`h-[1.5px] w-full rounded-full ${infoTab === it ? "bg-primary" : "bg-transparent"}`} />
@@ -2036,11 +2047,10 @@ function InformationTab({
       <div className="px-4 pt-3 flex items-center gap-4 text-[12px]">
         <div className="flex items-center gap-1.5">
           <span className="text-text-secondary">{t("Document Set Status")}:</span>
-          <span className={`inline-flex items-center px-2 h-[20px] rounded-full text-[11px] font-medium leading-none ${
-            docStatus.status === "Approved" ? "bg-success-bg text-success"
-              : docStatus.status === "Pending" ? "bg-primary-light text-primary"
+          <span className={`inline-flex items-center px-2 h-[20px] rounded-full text-[11px] font-medium leading-none ${docStatus.status === "Approved" ? "bg-success-bg text-success"
+            : docStatus.status === "Pending" ? "bg-primary-light text-primary"
               : "bg-error-bg text-error"
-          }`}>
+            }`}>
             {docStatus.status === "Approved" ? t("Approved") : docStatus.status === "Pending" ? t("Pending") : t("Not Approved")}
           </span>
         </div>
@@ -2306,9 +2316,8 @@ function MatchingTab({ profile, stage, setStage, phaseStatus }: { profile: Invoi
             <button
               key={s}
               onClick={() => setStage(s)}
-              className={`flex-1 min-w-0 text-left px-4 pt-3 pb-3 ${i > 0 ? "border-l border-border" : ""} ${
-                notStarted ? "bg-white opacity-60" : isActive ? "bg-primary-light" : "bg-white hover:bg-muted"
-              }`}
+              className={`flex-1 min-w-0 text-left px-4 pt-3 pb-3 ${i > 0 ? "border-l border-border" : ""} ${notStarted ? "bg-white opacity-60" : isActive ? "bg-primary-light" : "bg-white hover:bg-muted"
+                }`}
             >
               <div className="relative h-3 mb-2">
                 <div className={`absolute inset-x-0 top-1/2 -translate-y-1/2 h-[1.5px] rounded-full ${!notStarted && isActive ? "bg-primary" : "bg-border"}`} />
@@ -2329,238 +2338,237 @@ function MatchingTab({ profile, stage, setStage, phaseStatus }: { profile: Invoi
       </div>
 
       <div className="p-4 space-y-4">
-      {stageNotStarted ? (
-        <div className="border border-border rounded-md bg-white flex flex-col items-center justify-center py-16 text-text-secondary">
-          <Inbox className="h-8 w-8 mb-2 opacity-50" />
-          <div className="text-[13px] font-medium">{t("No data yet")}</div>
-          <div className="text-[11.5px] mt-1">{t("This stage has not started.")}</div>
-        </div>
-      ) : (
-      <>
-        {/* Reconciled Documents + Reconciliation Result, side by side */}
-        <div className="grid grid-cols-2 gap-4">
-          <div className="border border-border rounded-md overflow-hidden">
-            <table className="ent-table">
-              <thead>
-                <tr>
-                  <th>{t("Document Name")}</th>
-                  <th>{t("Document Number")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {groupedDocs.map((d) => (
-                  <tr key={d.label}>
-                    <td className="font-medium">{t(d.label)}</td>
-                    <td className="text-primary font-medium">{d.docNos}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {stageNotStarted ? (
+          <div className="border border-border rounded-md bg-white flex flex-col items-center justify-center py-16 text-text-secondary">
+            <Inbox className="h-8 w-8 mb-2 opacity-50" />
+            <div className="text-[13px] font-medium">{t("No data yet")}</div>
+            <div className="text-[11.5px] mt-1">{t("This stage has not started.")}</div>
           </div>
-
-          <div className="border border-border rounded-md p-3">
-            <div className="text-[11px] font-semibold text-text-secondary uppercase tracking-wide mb-2">{t("Reconciliation Result")}</div>
-            <div className="space-y-1.5">
-              {stageBanners.map((b) => (
-                <div
-                  key={b.text}
-                  className={`flex items-center gap-2 rounded px-2 py-1.5 text-[11.5px] ${
-                    b.tone === "success" ? "bg-success-bg text-success"
-                      : b.tone === "pending" ? "bg-warning-bg text-warning"
-                      : "bg-muted text-text-secondary"
-                  }`}
-                >
-                  {b.tone === "success" ? <CheckCircle2 className="h-3.5 w-3.5 shrink-0" /> : <Clock className="h-3.5 w-3.5 shrink-0" />}
-                  <span>{t(b.text)}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Header matching */}
-        <div>
-          <div className="flex items-center justify-between mb-2">
-            <div className="text-[12px] font-semibold text-text-primary">{t("Header Matching")}</div>
-            <div className="text-[11px] text-text-secondary">{t("{n} criteria checked", { n: String(profile.headerMatchRows.length) })}</div>
-          </div>
-          <div className="border border-border rounded-md overflow-hidden">
-            <table className="ent-table">
-              <thead>
-                <tr>
-                  <th>{t("Criteria")}</th>
-                  <th>{t("Invoice")}</th>
-                  <th>PO</th>
-                  <th>{t("Contract")}</th>
-                  <th>BL</th>
-                  <th>{t("Customs")}</th>
-                  <th>GR</th>
-                  <th>{t("Tolerance")}</th>
-                  <th>{t("Result")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {profile.headerMatchRows.map((r) => (
-                  <tr key={r[0]}>
-                    <td className="font-medium">{t(r[0])}</td>
-                    <td>{r[1]}</td>
-                    <td>{r[2]}</td>
-                    <td>{r[3]}</td>
-                    <td>{r[4]}</td>
-                    <td>{r[5]}</td>
-                    <td>{r[6]}</td>
-                    <td className="text-text-secondary">±0%</td>
-                    <td><StatusBadge status="Matched" /></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* Item matching */}
-        <div>
-          {/* Sub-tabs */}
-          <div className="border-b border-border flex bg-[#fbfcfd] px-2">
-            <button className="px-3 h-9 text-[12px] border-b-2 -mb-px whitespace-nowrap border-primary text-primary font-medium">
-              {t("Reconciliation Details")}
-            </button>
-          </div>
-
-          <div className="border border-t-0 border-border rounded-md">
-            {/* Filter row */}
-            <div className="flex items-center justify-between px-3 h-10 border-b border-border text-[12px]">
-              <div className="text-text-secondary">
-                {t("Invoice Date")}: <span className="text-text-primary font-medium">{(() => {
-                  const iso = profile.infoData["Invoice"].header.find((f) => f.key === "Invoice Date")?.value;
-                  return iso ? isoToDisplayDate(iso) : "—";
-                })()}</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="text-text-secondary">{t("Filter by status:")}</span>
-                {([
-                  { key: "Matched", color: "text-success" },
-                  { key: "Mismatch", color: "text-error" },
-                  { key: "Unreconciled", color: "text-text-secondary" },
-                ] as { key: ItemResultFilter; color: string }[]).map(({ key, color }) => (
-                  <label key={key} className="inline-flex items-center gap-1.5 cursor-pointer select-none">
-                    <input
-                      type="checkbox"
-                      checked={statusFilters.has(key)}
-                      onChange={() => toggleFilter(key)}
-                      className="h-3.5 w-3.5 accent-primary"
-                    />
-                    <span className={color}>{key}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {/* Expandable line-item table */}
-            <table className="ent-table">
-              <thead>
-                <tr>
-                  <th className="w-8"></th>
-                  <th>#</th>
-                  <th>{t("Item Code")}</th>
-                  <th>{t("Item Name")}</th>
-                  <th>{t("UoM")}</th>
-                  <th className="text-right">{t("Qty")}</th>
-                  <th className="text-right">{t("Unit Price")}</th>
-                  <th className="text-right">{t("Line Amount")}</th>
-                  <th>{t("Result")}</th>
-                  <th>{t("Notes")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {itemLineVisible && profile.itemMatchLines.map((line) => (
-                  <Fragment key={line.id}>
-                    <tr className="bg-success-bg/40 cursor-pointer hover:bg-success-bg/60" onClick={() => toggleRow(line.id)}>
-                      <td>
-                        <span className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-primary text-primary">
-                          <ChevronDown className={`h-2.5 w-2.5 transition-transform ${expandedRows.has(line.id) ? "" : "-rotate-90"}`} />
-                        </span>
-                      </td>
-                      <td>{line.id}</td>
-                      <td className="font-mono text-[11.5px] text-text-secondary">{line.itemCode}</td>
-                      <td className="font-medium">{line.productName}</td>
-                      <td>{line.uom}</td>
-                      <td className="text-right tabular-nums">{line.qty}</td>
-                      <td className="text-right tabular-nums">{line.unitPrice}</td>
-                      <td className="text-right tabular-nums font-medium">{line.lineAmount}</td>
-                      <td><StatusBadge status="Matched" /></td>
-                      <td className="text-text-secondary">—</td>
+        ) : (
+          <>
+            {/* Reconciled Documents + Reconciliation Result, side by side */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="border border-border rounded-md overflow-hidden">
+                <table className="ent-table">
+                  <thead>
+                    <tr>
+                      <th>{t("Document Name")}</th>
+                      <th>{t("Document Number")}</th>
                     </tr>
-                    {expandedRows.has(line.id) && line.matchedDocs[stage].map((d) => (
-                      <Fragment key={d.label}>
-                        <tr className="bg-muted/60">
-                          <td></td>
-                          <td></td>
-                          <td colSpan={2} className="font-medium text-text-primary">{t(d.label)} {t("No")} {d.docNo}</td>
-                          <td></td>
-                          <td className="text-right tabular-nums text-text-secondary">{d.qty}</td>
-                          <td className="text-right tabular-nums text-text-secondary">{d.unitPrice}</td>
-                          <td className="text-right tabular-nums font-medium">{d.lineAmount}</td>
-                          <td></td>
-                          <td></td>
-                        </tr>
-                        <tr className="bg-primary-light/30 text-text-secondary">
-                          <td></td>
+                  </thead>
+                  <tbody>
+                    {groupedDocs.map((d) => (
+                      <tr key={d.label}>
+                        <td className="font-medium">{t(d.label)}</td>
+                        <td className="text-primary font-medium">{d.docNos}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="border border-border rounded-md p-3">
+                <div className="text-[11px] font-semibold text-text-secondary uppercase tracking-wide mb-2">{t("Reconciliation Result")}</div>
+                <div className="space-y-1.5">
+                  {stageBanners.map((b) => (
+                    <div
+                      key={b.text}
+                      className={`flex items-center gap-2 rounded px-2 py-1.5 text-[11.5px] ${b.tone === "success" ? "bg-success-bg text-success"
+                        : b.tone === "pending" ? "bg-warning-bg text-warning"
+                          : "bg-muted text-text-secondary"
+                        }`}
+                    >
+                      {b.tone === "success" ? <CheckCircle2 className="h-3.5 w-3.5 shrink-0" /> : <Clock className="h-3.5 w-3.5 shrink-0" />}
+                      <span>{t(b.text)}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Header matching */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <div className="text-[12px] font-semibold text-text-primary">{t("Header Matching")}</div>
+                <div className="text-[11px] text-text-secondary">{t("{n} criteria checked", { n: String(profile.headerMatchRows.length) })}</div>
+              </div>
+              <div className="border border-border rounded-md overflow-hidden">
+                <table className="ent-table">
+                  <thead>
+                    <tr>
+                      <th>{t("Criteria")}</th>
+                      <th>{t("Invoice")}</th>
+                      <th>PO</th>
+                      <th>{t("Contract")}</th>
+                      <th>BL</th>
+                      <th>{t("Customs")}</th>
+                      <th>GR</th>
+                      <th>{t("Tolerance")}</th>
+                      <th>{t("Result")}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {profile.headerMatchRows.map((r) => (
+                      <tr key={r[0]}>
+                        <td className="font-medium">{t(r[0])}</td>
+                        <td>{r[1]}</td>
+                        <td>{r[2]}</td>
+                        <td>{r[3]}</td>
+                        <td>{r[4]}</td>
+                        <td>{r[5]}</td>
+                        <td>{r[6]}</td>
+                        <td className="text-text-secondary">±0%</td>
+                        <td><StatusBadge status="Matched" /></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Item matching */}
+            <div>
+              {/* Sub-tabs */}
+              <div className="border-b border-border flex bg-[#fbfcfd] px-2">
+                <button className="px-3 h-9 text-[12px] border-b-2 -mb-px whitespace-nowrap border-primary text-primary font-medium">
+                  {t("Reconciliation Details")}
+                </button>
+              </div>
+
+              <div className="border border-t-0 border-border rounded-md">
+                {/* Filter row */}
+                <div className="flex items-center justify-between px-3 h-10 border-b border-border text-[12px]">
+                  <div className="text-text-secondary">
+                    {t("Invoice Date")}: <span className="text-text-primary font-medium">{(() => {
+                      const iso = profile.infoData["Invoice"].header.find((f) => f.key === "Invoice Date")?.value;
+                      return iso ? isoToDisplayDate(iso) : "—";
+                    })()}</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-text-secondary">{t("Filter by status:")}</span>
+                    {([
+                      { key: "Matched", color: "text-success" },
+                      { key: "Mismatch", color: "text-error" },
+                      { key: "Unreconciled", color: "text-text-secondary" },
+                    ] as { key: ItemResultFilter; color: string }[]).map(({ key, color }) => (
+                      <label key={key} className="inline-flex items-center gap-1.5 cursor-pointer select-none">
+                        <input
+                          type="checkbox"
+                          checked={statusFilters.has(key)}
+                          onChange={() => toggleFilter(key)}
+                          className="h-3.5 w-3.5 accent-primary"
+                        />
+                        <span className={color}>{key}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Expandable line-item table */}
+                <table className="ent-table">
+                  <thead>
+                    <tr>
+                      <th className="w-8"></th>
+                      <th>#</th>
+                      <th>{t("Item Code")}</th>
+                      <th>{t("Item Name")}</th>
+                      <th>{t("UoM")}</th>
+                      <th className="text-right">{t("Qty")}</th>
+                      <th className="text-right">{t("Unit Price")}</th>
+                      <th className="text-right">{t("Line Amount")}</th>
+                      <th>{t("Result")}</th>
+                      <th>{t("Notes")}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {itemLineVisible && profile.itemMatchLines.map((line) => (
+                      <Fragment key={line.id}>
+                        <tr className="bg-success-bg/40 cursor-pointer hover:bg-success-bg/60" onClick={() => toggleRow(line.id)}>
+                          <td>
+                            <span className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-primary text-primary">
+                              <ChevronDown className={`h-2.5 w-2.5 transition-transform ${expandedRows.has(line.id) ? "" : "-rotate-90"}`} />
+                            </span>
+                          </td>
                           <td>{line.id}</td>
-                          <td className="font-mono text-[11px] pl-4">{line.itemCode}</td>
-                          <td className="pl-4">{line.productName}</td>
+                          <td className="font-mono text-[11.5px] text-text-secondary">{line.itemCode}</td>
+                          <td className="font-medium">{line.productName}</td>
                           <td>{line.uom}</td>
-                          <td className="text-right tabular-nums">{d.qty}</td>
-                          <td className="text-right tabular-nums">{d.unitPrice}</td>
-                          <td className="text-right tabular-nums">{d.lineAmount}</td>
-                          <td></td>
-                          <td></td>
+                          <td className="text-right tabular-nums">{line.qty}</td>
+                          <td className="text-right tabular-nums">{line.unitPrice}</td>
+                          <td className="text-right tabular-nums font-medium">{line.lineAmount}</td>
+                          <td><StatusBadge status="Matched" /></td>
+                          <td className="text-text-secondary">—</td>
                         </tr>
+                        {expandedRows.has(line.id) && line.matchedDocs[stage].map((d) => (
+                          <Fragment key={d.label}>
+                            <tr className="bg-muted/60">
+                              <td></td>
+                              <td></td>
+                              <td colSpan={2} className="font-medium text-text-primary">{t(d.label)} {t("No")} {d.docNo}</td>
+                              <td></td>
+                              <td className="text-right tabular-nums text-text-secondary">{d.qty}</td>
+                              <td className="text-right tabular-nums text-text-secondary">{d.unitPrice}</td>
+                              <td className="text-right tabular-nums font-medium">{d.lineAmount}</td>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                            <tr className="bg-primary-light/30 text-text-secondary">
+                              <td></td>
+                              <td>{line.id}</td>
+                              <td className="font-mono text-[11px] pl-4">{line.itemCode}</td>
+                              <td className="pl-4">{line.productName}</td>
+                              <td>{line.uom}</td>
+                              <td className="text-right tabular-nums">{d.qty}</td>
+                              <td className="text-right tabular-nums">{d.unitPrice}</td>
+                              <td className="text-right tabular-nums">{d.lineAmount}</td>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                          </Fragment>
+                        ))}
                       </Fragment>
                     ))}
-                  </Fragment>
-                ))}
-              </tbody>
-              <tfoot>
-                <tr className="bg-[#fbfcfd]">
-                  <td colSpan={5} className="text-right font-semibold">{t("Total")}</td>
-                  <td className="text-right font-semibold tabular-nums">{itemLineVisible ? sumFormatted(profile.itemMatchLines.map((l) => l.qty), 0) : "0"}</td>
-                  <td></td>
-                  <td className="text-right font-semibold tabular-nums">{itemLineVisible ? `${sumFormatted(profile.itemMatchLines.map((l) => l.lineAmount), 2)} USD` : "0.00 USD"}</td>
-                  <td colSpan={2}></td>
-                </tr>
-              </tfoot>
-            </table>
+                  </tbody>
+                  <tfoot>
+                    <tr className="bg-[#fbfcfd]">
+                      <td colSpan={5} className="text-right font-semibold">{t("Total")}</td>
+                      <td className="text-right font-semibold tabular-nums">{itemLineVisible ? sumFormatted(profile.itemMatchLines.map((l) => l.qty), 0) : "0"}</td>
+                      <td></td>
+                      <td className="text-right font-semibold tabular-nums">{itemLineVisible ? `${sumFormatted(profile.itemMatchLines.map((l) => l.lineAmount), 2)} USD` : "0.00 USD"}</td>
+                      <td colSpan={2}></td>
+                    </tr>
+                  </tfoot>
+                </table>
 
-            {/* Pagination */}
-            <div className="flex items-center justify-between px-3 h-10 border-t border-border text-[12px] text-text-secondary">
-              <div>{t("Showing")} {itemLineVisible ? 1 : 0}–{itemLineVisible ? profile.itemMatchLines.length : 0} {t("of")} {itemLineVisible ? profile.itemMatchLines.length : 0} {t("results")}</div>
-              <div className="flex items-center gap-1">
-                <button className="h-6 w-6 inline-flex items-center justify-center border border-border bg-white rounded-md hover:bg-muted">
-                  <ChevronLeft className="h-3.5 w-3.5" />
-                </button>
-                <button className="h-6 w-6 border border-primary bg-primary-light text-primary rounded-md text-[11px] font-medium">1</button>
-                <button className="h-6 w-6 inline-flex items-center justify-center border border-border bg-white rounded-md hover:bg-muted">
-                  <ChevronRight className="h-3.5 w-3.5" />
-                </button>
-                <select className="h-6 border border-border bg-white rounded-md text-[11px] ml-2">
-                  <option>{t("25 / page")}</option>
-                  <option>{t("50 / page")}</option>
-                </select>
+                {/* Pagination */}
+                <div className="flex items-center justify-between px-3 h-10 border-t border-border text-[12px] text-text-secondary">
+                  <div>{t("Showing")} {itemLineVisible ? 1 : 0}–{itemLineVisible ? profile.itemMatchLines.length : 0} {t("of")} {itemLineVisible ? profile.itemMatchLines.length : 0} {t("results")}</div>
+                  <div className="flex items-center gap-1">
+                    <button className="h-6 w-6 inline-flex items-center justify-center border border-border bg-white rounded-md hover:bg-muted">
+                      <ChevronLeft className="h-3.5 w-3.5" />
+                    </button>
+                    <button className="h-6 w-6 border border-primary bg-primary-light text-primary rounded-md text-[11px] font-medium">1</button>
+                    <button className="h-6 w-6 inline-flex items-center justify-center border border-border bg-white rounded-md hover:bg-muted">
+                      <ChevronRight className="h-3.5 w-3.5" />
+                    </button>
+                    <select className="h-6 border border-border bg-white rounded-md text-[11px] ml-2">
+                      <option>{t("25 / page")}</option>
+                      <option>{t("50 / page")}</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Legend */}
-        <div className="flex items-center gap-4 text-[11px] text-text-secondary">
-          <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-success" /> {t("Matched")}</span>
-          <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-warning" /> {t("Within tolerance")}</span>
-          <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-error" /> {t("Mismatch")}</span>
-          <span className="ml-auto">{t("Rule set:")} <span className="text-text-primary font-medium">IMPORT-5W-STANDARD v2.4</span></span>
-        </div>
-      </>
-      )}
+            {/* Legend */}
+            <div className="flex items-center gap-4 text-[11px] text-text-secondary">
+              <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-success" /> {t("Matched")}</span>
+              <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-warning" /> {t("Within tolerance")}</span>
+              <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-error" /> {t("Mismatch")}</span>
+              <span className="ml-auto">{t("Rule set:")} <span className="text-text-primary font-medium">IMPORT-5W-STANDARD v2.4</span></span>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
